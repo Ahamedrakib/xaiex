@@ -1,0 +1,2580 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="orange">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>WealthVault — Multi-Theme Glass Finance OS</title>
+
+  <!-- Crisp Inter Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS, Lucide Icons & Chart.js -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+
+  <style>
+    /* =========================================================================
+       3 DISTINCT THEME SYSTEMS:
+       1. [data-theme="bw"]     -> Monochrome Black & White
+       2. [data-theme="orange"] -> Industrial Slate Gray & Vibrant Orange
+       3. [data-theme="neon"]   -> Luminous Pure White & Electric Neon
+       ========================================================================= */
+    :root,
+    [data-theme="bw"] {
+      --font-stack: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --bg-base: #F8FAFC;
+      --bg-gradient: radial-gradient(at 0% 0%, rgba(226, 232, 240, 0.55) 0px, transparent 50%),
+                     radial-gradient(at 100% 100%, rgba(241, 245, 249, 0.9) 0px, transparent 55%);
+      --glass-surface: rgba(255, 255, 255, 0.86);
+      --glass-subtle: rgba(241, 245, 249, 0.85);
+      --border-hairline: rgba(9, 9, 11, 0.09);
+      --border-strong: rgba(9, 9, 11, 0.16);
+      --shadow-glass: 0 8px 30px -8px rgba(9, 9, 11, 0.06), 0 1px 3px rgba(9, 9, 11, 0.04);
+      --shadow-float: 0 20px 44px -12px rgba(9, 9, 11, 0.14);
+
+      --text-main: #09090B;
+      --text-sub: #52525B;
+      --text-muted: #A1A1AA;
+
+      --primary: #09090B;
+      --primary-hover: #27272A;
+      --primary-text: #FFFFFF;
+      --primary-glow: rgba(9, 9, 11, 0.18);
+
+      --accent: #18181B;
+      --accent-soft: rgba(9, 9, 11, 0.07);
+
+      --income: #059669;
+      --income-soft: rgba(5, 150, 105, 0.10);
+      --expense: #DC2626;
+      --expense-soft: rgba(220, 38, 38, 0.10);
+      --vault: #27272A;
+      --vault-soft: rgba(39, 39, 42, 0.08);
+
+      --essential-bg: rgba(244, 244, 245, 0.9);
+      --essential-border: #09090B;
+    }
+
+    [data-theme="orange"] {
+      --bg-base: #E2E8F0;
+      --bg-gradient: radial-gradient(at 0% 0%, rgba(254, 215, 170, 0.42) 0px, transparent 48%),
+                     radial-gradient(at 100% 0%, rgba(203, 213, 225, 0.65) 0px, transparent 50%),
+                     radial-gradient(at 50% 100%, rgba(226, 232, 240, 0.9) 0px, transparent 55%);
+      --glass-surface: rgba(248, 250, 252, 0.84);
+      --glass-subtle: rgba(226, 232, 240, 0.72);
+      --border-hairline: rgba(51, 65, 85, 0.11);
+      --border-strong: rgba(249, 115, 22, 0.28);
+      --shadow-glass: 0 10px 30px -8px rgba(30, 41, 59, 0.08), 0 1px 3px rgba(30, 41, 59, 0.04);
+      --shadow-float: 0 22px 44px -12px rgba(249, 115, 22, 0.18);
+
+      --text-main: #1E293B;
+      --text-sub: #475569;
+      --text-muted: #64748B;
+
+      --primary: #F97316;
+      --primary-hover: #EA580C;
+      --primary-text: #FFFFFF;
+      --primary-glow: rgba(249, 115, 22, 0.34);
+
+      --accent: #EA580C;
+      --accent-soft: rgba(249, 115, 22, 0.12);
+
+      --income: #0D9488;
+      --income-soft: rgba(13, 148, 136, 0.12);
+      --expense: #E11D48;
+      --expense-soft: rgba(225, 29, 72, 0.11);
+      --vault: #334155;
+      --vault-soft: rgba(51, 65, 85, 0.10);
+
+      --essential-bg: rgba(255, 237, 213, 0.58);
+      --essential-border: #F97316;
+    }
+
+    [data-theme="neon"] {
+      --bg-base: #FFFFFF;
+      --bg-gradient: radial-gradient(at 0% 0%, rgba(0, 229, 153, 0.14) 0px, transparent 45%),
+                     radial-gradient(at 100% 0%, rgba(0, 212, 255, 0.16) 0px, transparent 45%),
+                     radial-gradient(at 80% 100%, rgba(124, 58, 237, 0.10) 0px, transparent 50%);
+      --glass-surface: rgba(255, 255, 255, 0.88);
+      --glass-subtle: rgba(244, 247, 255, 0.82);
+      --border-hairline: rgba(99, 102, 241, 0.14);
+      --border-strong: rgba(0, 212, 255, 0.38);
+      --shadow-glass: 0 10px 34px -8px rgba(99, 102, 241, 0.10), 0 0 0 1px rgba(255, 255, 255, 0.9) inset;
+      --shadow-float: 0 22px 48px -10px rgba(0, 212, 255, 0.24);
+
+      --text-main: #0F172A;
+      --text-sub: #475569;
+      --text-muted: #94A3B8;
+
+      --primary: #6366F1;
+      --primary-hover: #4F46E5;
+      --primary-text: #FFFFFF;
+      --primary-glow: rgba(99, 102, 241, 0.36);
+
+      --accent: #0284C7;
+      --accent-soft: rgba(0, 212, 255, 0.14);
+
+      --income: #00B87A;
+      --income-soft: rgba(0, 229, 153, 0.15);
+      --expense: #FF2E63;
+      --expense-soft: rgba(255, 46, 99, 0.12);
+      --vault: #7C3AED;
+      --vault-soft: rgba(124, 58, 237, 0.12);
+
+      --essential-bg: rgba(224, 242, 254, 0.58);
+      --essential-border: #00D4FF;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      font-family: var(--font-stack) !important;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      color: var(--text-main);
+      background-color: var(--bg-base);
+      background-image: var(--bg-gradient);
+      background-attachment: fixed;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.28s ease, color 0.28s ease;
+    }
+
+    .glass-card {
+      background: var(--glass-surface);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-hairline);
+      box-shadow: var(--shadow-glass);
+      border-radius: 22px;
+      transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.22s ease, border-color 0.22s ease, background-color 0.28s ease;
+    }
+
+    .glass-card-hover:hover {
+      border-color: var(--border-strong);
+      box-shadow: var(--shadow-float);
+      transform: translateY(-1px);
+    }
+
+    .glass-bar {
+      background: var(--glass-surface);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      border-bottom: 1px solid var(--border-hairline);
+      transition: background-color 0.28s ease, border-color 0.28s ease;
+    }
+
+    .glass-pill {
+      background: var(--glass-subtle);
+      border: 1px solid var(--border-hairline);
+      color: var(--text-main);
+      transition: all 0.16s ease;
+    }
+    .glass-pill:hover {
+      background: #FFFFFF;
+      border-color: var(--border-strong);
+    }
+    .glass-pill:active {
+      transform: scale(0.96);
+    }
+
+    .btn-theme-primary {
+      background: var(--primary);
+      color: var(--primary-text);
+      box-shadow: 0 6px 18px -6px var(--primary-glow);
+      transition: background-color 0.16s ease, transform 0.14s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.16s ease;
+    }
+    .btn-theme-primary:hover {
+      background: var(--primary-hover);
+      box-shadow: 0 10px 24px -6px var(--primary-glow);
+    }
+    .btn-theme-primary:active {
+      transform: scale(0.96);
+    }
+
+    .glass-input {
+      background: rgba(255, 255, 255, 0.90);
+      border: 1px solid var(--border-hairline);
+      color: var(--text-main);
+      border-radius: 13px;
+      transition: border-color 0.16s ease, box-shadow 0.16s ease, background-color 0.16s ease;
+    }
+    .glass-input:focus {
+      outline: none;
+      background: #FFFFFF;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    /* Privacy Blur Mask */
+    .money-val {
+      font-variant-numeric: tabular-nums;
+      transition: filter 0.22s ease, opacity 0.22s ease;
+    }
+    body.privacy-masked .money-val {
+      filter: blur(7px);
+      user-select: none;
+      pointer-events: none;
+    }
+
+    /* Essential Highlight */
+    .tx-essential {
+      background: var(--essential-bg) !important;
+      border-left: 3.5px solid var(--essential-border) !important;
+    }
+
+    /* Slide-over Drawer / Mobile Sheet */
+    .sheet-backdrop {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.24s ease;
+    }
+    .sheet-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .sheet-panel {
+      transform: translateY(100%);
+      transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .sheet-backdrop.open .sheet-panel {
+      transform: translateY(0);
+    }
+    @media (min-width: 768px) {
+      .sheet-panel { transform: translateX(100%); }
+      .sheet-backdrop.open .sheet-panel { transform: translateX(0); }
+    }
+
+    /* Subtle Pulse for Due Bills */
+    @keyframes softPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.16); }
+      50% { box-shadow: 0 0 0 6px rgba(225, 29, 72, 0); }
+    }
+    .due-pulse {
+      animation: softPulse 2.4s infinite;
+      border-color: var(--expense) !important;
+    }
+
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    .pb-safe-nav { padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
+    @media (min-width: 1024px) { .pb-safe-nav { padding-bottom: 3rem; } }
+  </style>
+</head>
+<body>
+
+  <!-- =======================================================================
+       PRIVACY LOCK SCREEN OVERLAY
+       ======================================================================= -->
+  <div id="lockScreenOverlay" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" style="background: rgba(248, 250, 252, 0.90); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);">
+    <div class="glass-card max-w-sm w-full p-7 text-center space-y-5 shadow-2xl">
+      <div class="w-14 h-14 rounded-2xl mx-auto flex items-center justify-center shadow-md" style="background: var(--primary); color: var(--primary-text);">
+        <i data-lucide="shield-lock" class="w-7 h-7"></i>
+      </div>
+      <div>
+        <h2 class="text-lg font-extrabold" style="color: var(--text-main);">WealthVault Locked</h2>
+        <p class="text-xs mt-1" style="color: var(--text-sub);">Your financial balances are shielded in public</p>
+      </div>
+      <div class="space-y-2.5">
+        <input id="lockPinInput" type="password" inputmode="numeric" maxlength="4" placeholder="PIN (Optional: 1234)" class="glass-input w-full h-11 px-4 text-center text-sm font-bold tracking-widest" />
+        <button id="btnUnlockScreen" class="btn-theme-primary w-full h-11 rounded-xl text-sm font-bold flex items-center justify-center gap-2">
+          <i data-lucide="fingerprint" class="w-4 h-4"></i>
+          <span>Unlock Cockpit</span>
+        </button>
+      </div>
+      <p class="text-[11px]" style="color: var(--text-muted);">Tap Unlock directly or enter PIN 1234</p>
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       CUSTOM GLASS CONFIRMATION MODAL
+       ======================================================================= -->
+  <div id="confirmBackdrop" class="hidden fixed inset-0 z-50 bg-slate-900/30 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="glass-card bg-white/95 max-w-sm w-full p-6 space-y-4 shadow-2xl">
+      <h3 id="confirmTitle" class="text-base font-extrabold" style="color: var(--text-main);">Confirm Action</h3>
+      <p id="confirmMessage" class="text-xs leading-relaxed" style="color: var(--text-sub);"></p>
+      <div class="flex items-center justify-end gap-2 pt-2">
+        <button id="btnConfirmCancel" class="glass-pill h-10 px-4 rounded-xl text-xs font-bold">Cancel</button>
+        <button id="btnConfirmOk" class="btn-theme-primary h-10 px-4 rounded-xl text-xs font-bold">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       TOP MINIMALIST GLASS HEADER + 3-THEME SWITCHER
+       ======================================================================= -->
+  <header class="glass-bar sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-2">
+      <!-- Brand + Greeting -->
+      <div class="flex items-center gap-2.5 min-w-0">
+        <div class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style="background: var(--primary); color: var(--primary-text);">
+          <i data-lucide="vault" class="w-4 h-4"></i>
+        </div>
+        <div class="min-w-0">
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-base tracking-tight">WealthVault</span>
+            <span id="headerHealthPill" class="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold" style="background: var(--glass-subtle); color: var(--text-sub);">
+              <span id="headerHealthDot" class="w-1.5 h-1.5 rounded-full" style="background: var(--income);"></span>
+              <span id="headerHealthText">Health --</span>
+            </span>
+          </div>
+          <p id="headerGreeting" class="text-xs truncate" style="color: var(--text-sub);">Good Morning, Founder</p>
+        </div>
+      </div>
+
+      <!-- Desktop 3-Tab Navigation -->
+      <nav class="hidden lg:flex items-center gap-1 p-1 rounded-xl" style="background: var(--glass-subtle); border: 1px solid var(--border-hairline);">
+        <button data-nav="overview" class="nav-btn px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all">Overview</button>
+        <button data-nav="history" class="nav-btn px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all">History</button>
+        <button data-nav="vaults" class="nav-btn px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all">Vaults & Plan</button>
+      </nav>
+
+      <!-- 3-Option Theme Switcher + Utilities -->
+      <div class="flex items-center gap-1.5 shrink-0">
+        <!-- 3-Theme Pill Selector -->
+        <div class="flex items-center p-1 rounded-xl" style="background: var(--glass-subtle); border: 1px solid var(--border-hairline);" title="Switch Theme">
+          <button data-set-theme="bw" class="theme-opt-btn px-2 sm:px-2.5 h-8 rounded-lg text-[11px] font-bold transition-all flex items-center gap-1">
+            <span class="w-2 h-2 rounded-full bg-zinc-900 border border-zinc-400"></span>
+            <span>B&W</span>
+          </button>
+          <button data-set-theme="orange" class="theme-opt-btn px-2 sm:px-2.5 h-8 rounded-lg text-[11px] font-bold transition-all flex items-center gap-1">
+            <span class="w-2 h-2 rounded-full bg-orange-500"></span>
+            <span>Orange</span>
+          </button>
+          <button data-set-theme="neon" class="theme-opt-btn px-2 sm:px-2.5 h-8 rounded-lg text-[11px] font-bold transition-all flex items-center gap-1">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_6px_#00D4FF]"></span>
+            <span>Neon</span>
+          </button>
+        </div>
+
+        <button id="btnPrivacyEye" title="Hide / Show Numbers" class="glass-pill w-10 h-10 rounded-xl flex items-center justify-center">
+          <span id="eyeIconSlot" class="flex items-center justify-center"><i data-lucide="eye" class="w-4 h-4"></i></span>
+        </button>
+        <button id="btnLockApp" title="Lock Screen" class="hidden sm:flex glass-pill w-10 h-10 rounded-xl items-center justify-center">
+          <i data-lucide="lock" class="w-4 h-4"></i>
+        </button>
+        <button id="btnOpenSettings" title="Settings & Backup" class="glass-pill w-10 h-10 rounded-xl flex items-center justify-center">
+          <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
+        </button>
+        <button id="btnOpenTransfer" class="hidden md:inline-flex glass-pill h-10 px-3 rounded-xl items-center gap-1.5 text-xs font-bold">
+          <i data-lucide="arrow-left-right" class="w-3.5 h-3.5"></i>
+          <span>Transfer</span>
+        </button>
+        <button id="btnOpenAdd" class="btn-theme-primary h-10 px-3.5 rounded-xl inline-flex items-center gap-1 text-xs font-bold">
+          <i data-lucide="plus" class="w-4 h-4"></i>
+          <span>Add</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =======================================================================
+       MAIN CONTENT CONTAINER
+       ======================================================================= -->
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 pt-5 pb-safe-nav">
+
+    <!-- =====================================================================
+         TAB 1: OVERVIEW
+         ===================================================================== -->
+    <section id="view-overview" class="view-pane space-y-5">
+
+      <!-- Due Bill 3-Day Alert Banner -->
+      <div id="dueAlertBanner" class="hidden glass-card due-pulse px-4 py-3 flex items-center justify-between gap-3" style="background: var(--expense-soft);">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <span class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background: var(--expense); color: #fff;">
+            <i data-lucide="bell-ring" class="w-4 h-4"></i>
+          </span>
+          <p id="dueAlertText" class="text-xs font-bold truncate" style="color: var(--expense);"></p>
+        </div>
+        <button data-nav="vaults" class="text-xs font-extrabold hover:underline shrink-0" style="color: var(--expense);">View Bills</button>
+      </div>
+
+      <!-- Quick-Add Bar + Rapid Family Food Micro-Pills -->
+      <div class="glass-card p-3.5 sm:p-4 space-y-2.5">
+        <div class="flex flex-col lg:flex-row lg:items-center gap-2.5">
+          <form id="quickAddForm" class="flex-1 flex items-center gap-2">
+            <div class="relative flex-1">
+              <i data-lucide="zap" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2" style="color: var(--accent);"></i>
+              <input
+                id="quickAddInput"
+                type="text"
+                autocomplete="off"
+                placeholder='Quick add: e.g. "Bike Fuel 300 bKash", "Egg 140 MoneyBag", or "Income 5000 Bank"'
+                class="glass-input w-full h-11 pl-10 pr-3 text-sm font-medium"
+              />
+            </div>
+            <button type="submit" class="btn-theme-primary h-11 px-4 rounded-xl text-xs font-bold shrink-0">Log</button>
+          </form>
+
+          <!-- Rapid Family Food Pills -->
+          <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+            <span class="text-[11px] font-bold shrink-0 mr-0.5" style="color: var(--text-muted);">Family Food:</span>
+            <button data-quick-food="20" class="glass-pill h-10 sm:h-9 px-3 rounded-full text-xs font-bold shrink-0">+20 Tk</button>
+            <button data-quick-food="30" class="glass-pill h-10 sm:h-9 px-3 rounded-full text-xs font-bold shrink-0">+30 Tk</button>
+            <button data-quick-food="50" class="glass-pill h-10 sm:h-9 px-3 rounded-full text-xs font-bold shrink-0">+50 Tk</button>
+            <button id="btnQuickFoodCustom" class="glass-pill h-10 sm:h-9 px-3 rounded-full text-xs font-semibold shrink-0">Custom</button>
+            <select id="quickFoodWalletSel" class="glass-input h-10 sm:h-9 px-2.5 text-xs font-bold shrink-0 cursor-pointer"></select>
+          </div>
+        </div>
+        <div id="quickDetectBar" class="hidden pt-2 border-t flex flex-wrap items-center gap-1.5 text-xs" style="border-color: var(--border-hairline);"></div>
+      </div>
+
+      <!-- HERO BENTO GRID (4 CORE METRIC CARDS) -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+        <!-- 1. Total Available Net Worth -->
+        <div class="glass-card p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold" style="color: var(--text-sub);">Total Net Worth</span>
+              <i data-lucide="wallet" class="w-4 h-4" style="color: var(--accent);"></i>
+            </div>
+            <div class="money-val text-3xl font-extrabold tracking-tight mt-2" id="valNetWorth">Tk 0</div>
+          </div>
+          <div class="mt-4 pt-3 border-t flex items-center justify-between text-xs font-semibold" style="border-color: var(--border-hairline); color: var(--text-sub);">
+            <span>Cash: <strong id="valCashBdt" class="money-val" style="color: var(--text-main);">Tk 0</strong></span>
+            <span>USD: <strong id="valVaultBdt" class="money-val" style="color: var(--accent);">~ Tk 0</strong></span>
+          </div>
+        </div>
+
+        <!-- 2. Automatic PnL (Day 1 vs Current) -->
+        <div class="glass-card p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between gap-1">
+              <span class="text-xs font-bold" style="color: var(--text-sub);">Auto PnL (Profit / Loss)</span>
+              <span id="pnlStatusBadge" class="px-2 py-0.5 rounded-full text-[10px] font-extrabold" style="background: var(--glass-subtle); color: var(--text-sub);">Day 1 = Tk 0</span>
+            </div>
+            <div class="flex items-baseline gap-2 mt-2 flex-wrap">
+              <span id="valPnlAmount" class="money-val text-3xl font-extrabold tracking-tight">Tk 0</span>
+              <span id="valPnlPct" class="money-val text-xs font-extrabold" style="color: var(--text-muted);">0.0%</span>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t flex items-center justify-between gap-2 text-xs" style="border-color: var(--border-hairline);">
+            <span style="color: var(--text-sub);">Start: <strong id="valStartCap" class="money-val" style="color: var(--text-main);">Tk 0</strong></span>
+            <div class="flex items-center gap-2">
+              <button id="btnLockDay1Now" title="Set Current Net Worth as Day 1 Capital" class="text-[11px] font-bold hover:underline" style="color: var(--accent);">Set Now</button>
+              <button id="btnEditCycleCap" class="text-[11px] font-bold hover:underline" style="color: var(--text-main);">Edit</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Monthly Cashflow PnL -->
+        <div class="glass-card p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold" style="color: var(--text-sub);">Monthly Net Cashflow</span>
+              <i data-lucide="activity" class="w-4 h-4" style="color: var(--accent);"></i>
+            </div>
+            <div id="valMonthNet" class="money-val text-3xl font-extrabold tracking-tight mt-2">Tk 0</div>
+          </div>
+          <div class="mt-4 pt-3 border-t flex items-center justify-between text-xs font-bold" style="border-color: var(--border-hairline);">
+            <span style="color: var(--income);">In: <span id="valMonthIn" class="money-val">+Tk 0</span></span>
+            <span style="color: var(--expense);">Out: <span id="valMonthOut" class="money-val">-Tk 0</span></span>
+          </div>
+        </div>
+
+        <!-- 4. Safe-to-Spend & Streak -->
+        <div class="glass-card p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between gap-1">
+              <span class="text-xs font-bold" style="color: var(--text-sub);">Daily Safe-to-Spend</span>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold" style="background: var(--income-soft); color: var(--income);" id="valStreakBadge">0d No-Impulse</span>
+            </div>
+            <div class="mt-2 flex items-baseline gap-1">
+              <span id="valSafeSpend" class="money-val text-3xl font-extrabold tracking-tight">Tk 0</span>
+              <span class="text-xs font-semibold" style="color: var(--text-muted);">/day</span>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t flex items-center justify-between text-xs" style="border-color: var(--border-hairline); color: var(--text-sub);">
+            <span>Reserved Bills: <strong id="valReservedBills" class="money-val" style="color: var(--text-main);">Tk 0</strong></span>
+            <span id="valDaysLeft" class="font-bold" style="color: var(--accent);">90d left</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- WALLETS + USD VAULT + LOCKED FDR/DPS ROW -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+
+        <!-- BDT Cash Wallets (7 cols) -->
+        <div class="lg:col-span-7 glass-card p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-3.5">
+              <div>
+                <h3 class="text-sm font-extrabold">Cash Wallets (BDT)</h3>
+                <p class="text-[11px]" style="color: var(--text-sub);">Click the Sync icon to match real-world balances directly</p>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <button id="btnMobileTransfer" class="md:hidden glass-pill h-9 px-3 rounded-xl text-xs font-bold flex items-center gap-1">
+                  <i data-lucide="arrow-left-right" class="w-3.5 h-3.5"></i> Transfer
+                </button>
+                <button id="btnAddWallet" class="glass-pill h-9 px-3 rounded-xl text-xs font-bold flex items-center gap-1">
+                  <i data-lucide="plus" class="w-3.5 h-3.5"></i> Wallet
+                </button>
+              </div>
+            </div>
+
+            <div id="bdtWalletsList" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5"></div>
+          </div>
+
+          <!-- Minimal 50/30/20 Progress Bar -->
+          <div class="mt-4 pt-3.5 border-t" style="border-color: var(--border-hairline);">
+            <div class="flex items-center justify-between text-[11px] font-bold mb-1.5" style="color: var(--text-sub);">
+              <span>50/30/20 Rule (This Month)</span>
+              <span>Needs <strong id="pctNeeds" style="color: var(--text-main);">0%</strong> • Wants <strong id="pctWants" style="color: var(--expense);">0%</strong> • Saved <strong id="pctSave" style="color: var(--income);">0%</strong></span>
+            </div>
+            <div class="w-full h-2 rounded-full overflow-hidden flex" style="background: var(--glass-subtle);">
+              <div id="barNeeds" class="h-full transition-all duration-500" style="width: 0%; background: var(--primary);"></div>
+              <div id="barWants" class="h-full transition-all duration-500" style="width: 0%; background: var(--expense);"></div>
+              <div id="barSave" class="h-full transition-all duration-500" style="width: 0%; background: var(--income);"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- USD Vault & Locked FDR/DPS Vault (5 cols) -->
+        <div class="lg:col-span-5 space-y-4">
+          <!-- USD / USDT Vault -->
+          <div class="glass-card p-5">
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <div>
+                <h3 class="text-sm font-extrabold">USD / Crypto Vault</h3>
+                <p class="text-[11px]" style="color: var(--text-sub);">Binance & Web3 Balances</p>
+              </div>
+              <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-xl" style="background: var(--accent-soft);">
+                <span class="text-[11px] font-bold" style="color: var(--accent);">1 USD =</span>
+                <input id="inputUsdRate" type="number" step="0.01" min="1" value="122" class="w-14 bg-white text-right text-xs font-extrabold rounded-lg px-1.5 py-1 border focus:outline-none" style="color: var(--text-main); border-color: var(--border-hairline);" />
+                <span class="text-[11px] font-bold" style="color: var(--accent);">Tk</span>
+              </div>
+            </div>
+            <div id="usdWalletsList" class="grid grid-cols-2 gap-2.5"></div>
+          </div>
+
+          <!-- Locked Fixed Deposit / DPS Vault -->
+          <div class="glass-card p-5">
+            <div class="flex items-center justify-between gap-2">
+              <div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs font-extrabold">Locked FDR / DPS Vault</span>
+                  <span class="px-1.5 py-0.5 rounded text-[10px] font-bold" style="background: var(--glass-subtle); color: var(--text-sub);">Isolated</span>
+                </div>
+                <div class="mt-1 flex items-baseline gap-2 flex-wrap">
+                  <span id="valLockedPrincipal" class="money-val text-xl font-extrabold">Tk 0</span>
+                  <span class="text-[11px] font-bold" style="color: var(--income);">Maturity: <span id="valLockedMaturity" class="money-val">Tk 0</span></span>
+                </div>
+              </div>
+              <button id="btnEditLockedVault" class="glass-pill h-9 px-3 rounded-xl text-xs font-bold">Manage</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECENT ACTIVITY + ANALYTICS & AI MENTOR ROW -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+
+        <!-- Recent Transactions Feed (7 cols) -->
+        <div class="lg:col-span-7 glass-card p-5">
+          <div class="flex items-center justify-between gap-2 mb-3.5">
+            <div>
+              <h3 class="text-sm font-extrabold">Recent Transactions</h3>
+              <p class="text-[11px]" style="color: var(--text-sub);">Essential expenses are highlighted with an accent border</p>
+            </div>
+            <button data-nav="history" class="text-xs font-bold hover:underline" style="color: var(--accent);">View All</button>
+          </div>
+          <div id="recentTxList" class="space-y-2"></div>
+        </div>
+
+        <!-- Analytics, Goal, Emergency Rescue & AI Mentor (5 cols) -->
+        <div class="lg:col-span-5 space-y-4">
+
+          <!-- 3-Month Goal Progress -->
+          <div class="glass-card p-5">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-extrabold">3-Month Savings Goal Jar</span>
+              <button id="btnGoalModal" class="text-[11px] font-bold hover:underline" style="color: var(--accent);">Set Goal</button>
+            </div>
+            <div class="flex items-baseline justify-between text-xs mb-2">
+              <span><strong id="valGoalNow" class="money-val text-base font-extrabold">Tk 0</strong> / <span id="valGoalTarget" class="money-val" style="color: var(--text-sub);">Tk 0</span></span>
+              <span id="valGoalPct" class="font-extrabold" style="color: var(--income);">0%</span>
+            </div>
+            <div class="w-full h-2.5 rounded-full overflow-hidden" style="background: var(--glass-subtle);">
+              <div id="barGoal" class="h-full rounded-full transition-all duration-500" style="width: 0%; background: var(--primary);"></div>
+            </div>
+          </div>
+
+          <!-- Expense Breakdown Donut -->
+          <div class="glass-card p-5">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-extrabold">Expense Chart (This Month)</span>
+              <span id="healthGuardianQuote" class="text-[11px] font-semibold truncate max-w-[200px]" style="color: var(--text-sub);">Keep essentials first</span>
+            </div>
+            <div class="relative h-44 flex items-center justify-center">
+              <canvas id="expenseChart"></canvas>
+              <p id="chartNoData" class="hidden text-xs font-semibold" style="color: var(--text-muted);">No expenses logged this month</p>
+            </div>
+          </div>
+
+          <!-- Emergency Money Rescue -->
+          <div class="glass-card p-5 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-extrabold">Emergency Rescue Planner</span>
+              <span class="text-[11px]" style="color: var(--text-muted);">Instant Plan</span>
+            </div>
+            <div class="flex gap-2">
+              <input id="rescueInput" type="number" min="0" placeholder="Urgent BDT needed (e.g. 5000)" class="glass-input flex-1 h-10 px-3 text-xs font-bold" />
+              <button id="btnRescueReset" class="glass-pill h-10 px-3 rounded-xl text-xs font-bold">Clear</button>
+            </div>
+            <div id="rescueOutput" class="hidden p-3 rounded-xl text-xs space-y-1.5" style="background: var(--glass-subtle); border: 1px solid var(--border-hairline);"></div>
+          </div>
+
+          <!-- 1-Click Copy AI Mentor Report -->
+          <button id="btnCopyAiMentor" class="w-full glass-card glass-card-hover p-4 flex items-center justify-between text-left">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background: var(--primary); color: var(--primary-text);">
+                <i data-lucide="sparkles" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <div class="text-xs font-extrabold">Copy Daily Summary for AI Mentor</div>
+                <div class="text-[11px]" style="color: var(--text-sub);">1-click nightly report formatted for Gemini AI</div>
+              </div>
+            </div>
+            <i data-lucide="copy" class="w-4 h-4 shrink-0" style="color: var(--accent);"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         TAB 2: HISTORY
+         ===================================================================== -->
+    <section id="view-history" class="view-pane hidden space-y-4">
+      <div class="glass-card p-5 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h2 class="text-base font-extrabold">Transaction History</h2>
+            <p class="text-xs" style="color: var(--text-sub);">Edit or delete any entry — wallet balances & PnL recalculate automatically</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <input id="histSearch" type="text" placeholder="Search..." class="glass-input h-10 px-3 text-xs font-medium w-40 sm:w-52" />
+            <select id="histWalletFilter" class="glass-input h-10 px-2.5 text-xs font-bold cursor-pointer"></select>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1">
+          <button data-hf="all" class="hf-btn h-9 px-3.5 rounded-full text-xs font-bold shrink-0">All</button>
+          <button data-hf="7d" class="hf-btn h-9 px-3.5 rounded-full text-xs font-bold shrink-0">Last 7 Days</button>
+          <button data-hf="month" class="hf-btn h-9 px-3.5 rounded-full text-xs font-bold shrink-0">This Month</button>
+          <button data-hf="essential" class="hf-btn h-9 px-3.5 rounded-full text-xs font-bold shrink-0">Essential Only</button>
+          <button data-hf="impulse" class="hf-btn h-9 px-3.5 rounded-full text-xs font-bold shrink-0">Impulse</button>
+          <button data-hf="income" class="hf-btn h-9 px-3.5 rounded-full text-xs font-bold shrink-0">Income</button>
+        </div>
+
+        <div id="histSummaryBar" class="px-3.5 py-2.5 rounded-xl flex items-center justify-between text-xs font-bold" style="background: var(--glass-subtle); color: var(--text-sub);"></div>
+        <div id="histFullList" class="space-y-2"></div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         TAB 3: VAULTS & PLAN
+         ===================================================================== -->
+    <section id="view-vaults" class="view-pane hidden space-y-5">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+
+        <!-- 1. Recurring Bills & Subscriptions -->
+        <div class="glass-card p-5 space-y-3.5">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-sm font-extrabold">Bills & Subscriptions (Auto-Reserve)</h2>
+              <p class="text-[11px]" style="color: var(--text-sub);">Unpaid bills are automatically deducted from Safe-to-Spend</p>
+            </div>
+            <button id="btnNewBill" class="btn-theme-primary h-9 px-3 rounded-xl text-xs font-bold flex items-center gap-1">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i> Bill
+            </button>
+          </div>
+          <div id="billsContainer" class="space-y-2"></div>
+        </div>
+
+        <!-- 2. Receivables & Payables Smart Ledger -->
+        <div class="glass-card p-5 space-y-3.5">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-sm font-extrabold">Receivables & Payables Ledger</h2>
+              <p class="text-[11px]" style="color: var(--text-sub);">Supports partial or full settlement directly with wallets</p>
+            </div>
+            <button id="btnNewDue" class="btn-theme-primary h-9 px-3 rounded-xl text-xs font-bold flex items-center gap-1">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i> Record
+            </button>
+          </div>
+          <div class="grid grid-cols-2 gap-2.5">
+            <div class="p-3 rounded-xl" style="background: var(--income-soft);">
+              <span class="text-[11px] font-bold block" style="color: var(--income);">Total Receivable</span>
+              <span id="valTotalReceivable" class="money-val text-base font-extrabold" style="color: var(--income);">Tk 0</span>
+            </div>
+            <div class="p-3 rounded-xl" style="background: var(--expense-soft);">
+              <span class="text-[11px] font-bold block" style="color: var(--expense);">Total Payable</span>
+              <span id="valTotalPayable" class="money-val text-base font-extrabold" style="color: var(--expense);">Tk 0</span>
+            </div>
+          </div>
+          <div id="duesContainer" class="space-y-2"></div>
+        </div>
+      </div>
+
+      <!-- 3. Loan & Debt Payoff Optimizer -->
+      <div class="glass-card p-5 space-y-3.5">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h2 class="text-sm font-extrabold">Loan & Debt Payoff Optimizer</h2>
+            <p class="text-[11px]" style="color: var(--text-sub);">Calculate monthly EMI and your exact Debt-Free timeline</p>
+          </div>
+          <button id="btnNewDebt" class="btn-theme-primary h-9 px-3.5 rounded-xl text-xs font-bold flex items-center gap-1">
+            <i data-lucide="plus" class="w-3.5 h-3.5"></i> Add Loan
+          </button>
+        </div>
+        <div id="debtsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =======================================================================
+       MOBILE STICKY GLASS BOTTOM NAVIGATION
+       ======================================================================= -->
+  <nav class="lg:hidden fixed bottom-0 left-0 right-0 z-40 glass-bar" style="border-top: 1px solid var(--border-hairline); border-bottom: none; padding-bottom: env(safe-area-inset-bottom, 0px);">
+    <div class="grid grid-cols-3 h-16 max-w-md mx-auto">
+      <button data-nav="overview" class="mnav-btn flex flex-col items-center justify-center gap-1 text-[11px] font-bold">
+        <i data-lucide="layout-grid" class="w-5 h-5"></i>
+        <span>Overview</span>
+      </button>
+      <button data-nav="history" class="mnav-btn flex flex-col items-center justify-center gap-1 text-[11px] font-bold">
+        <i data-lucide="list" class="w-5 h-5"></i>
+        <span>History</span>
+      </button>
+      <button data-nav="vaults" class="mnav-btn flex flex-col items-center justify-center gap-1 text-[11px] font-bold">
+        <i data-lucide="shield" class="w-5 h-5"></i>
+        <span>Vaults & Plan</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- =======================================================================
+       SLIDE-OVER FROSTED GLASS DRAWER / MOBILE SHEET
+       ======================================================================= -->
+  <div id="sheetBackdrop" class="sheet-backdrop fixed inset-0 z-50 bg-slate-900/25 backdrop-blur-xs flex items-end md:items-stretch md:justify-end">
+    <div class="sheet-panel w-full md:w-[410px] max-h-[92vh] md:max-h-full md:h-full bg-white/95 backdrop-blur-2xl rounded-t-3xl md:rounded-t-none md:rounded-l-3xl shadow-2xl flex flex-col overflow-hidden" style="border-left: 1px solid var(--border-hairline); color: var(--text-main);">
+      <div class="md:hidden flex justify-center pt-2.5 pb-1">
+        <div class="w-10 h-1 rounded-full bg-slate-300"></div>
+      </div>
+      <div class="px-5 py-3.5 border-b flex items-center justify-between gap-2 shrink-0" style="border-color: var(--border-hairline);">
+        <div class="min-w-0">
+          <h3 id="sheetTitle" class="text-sm font-extrabold truncate">Entry</h3>
+          <p id="sheetSubtitle" class="text-[11px] truncate" style="color: var(--text-sub);"></p>
+        </div>
+        <button id="btnCloseSheet" class="glass-pill w-9 h-9 rounded-xl flex items-center justify-center shrink-0">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <div id="sheetBody" class="p-5 overflow-y-auto flex-1 space-y-4"></div>
+    </div>
+  </div>
+
+  <!-- TOAST STACK -->
+  <div id="toastStack" class="fixed bottom-20 lg:bottom-6 right-4 left-4 sm:left-auto sm:w-88 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <script>
+    (() => {
+      'use strict';
+
+      const STORAGE_KEY = 'wealthvault_themes_v5';
+
+      /* ---------------------------------------------------------------------
+         1. SAFE MATH & ENGLISH FORMATTING HELPERS
+         --------------------------------------------------------------------- */
+      const round2 = (v) => {
+        const n = Number(v);
+        if (!Number.isFinite(n)) return 0;
+        const r = Math.round((n + Number.EPSILON) * 100) / 100;
+        return Object.is(r, -0) ? 0 : r;
+      };
+
+      const uid = (p = 'id') => `${p}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 6)}`;
+
+      const todayISO = () => {
+        const d = new Date();
+        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+      };
+
+      const esc = (s) => String(s ?? '')
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
+      const fmtBDT = (val, showSign = false) => {
+        const n = round2(val);
+        const dec = Math.abs(n % 1) > 0.001;
+        const abs = Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: dec ? 2 : 0, maximumFractionDigits: 2 });
+        if (n < 0) return `-Tk ${abs}`;
+        if (showSign && n > 0) return `+Tk ${abs}`;
+        return `Tk ${abs}`;
+      };
+
+      const fmtUSD = (val, showSign = false) => {
+        const n = round2(val);
+        const abs = Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        if (n < 0) return `-$${abs}`;
+        if (showSign && n > 0) return `+$${abs}`;
+        return `$${abs}`;
+      };
+
+      const fmtMoney = (val, cur = 'BDT', sign = false) => cur === 'USD' ? fmtUSD(val, sign) : fmtBDT(val, sign);
+
+      function getEnglishGreeting(name) {
+        const h = new Date().getHours();
+        let g = 'Good Night';
+        if (h >= 5 && h < 12) g = 'Good Morning';
+        else if (h >= 12 && h < 17) g = 'Good Afternoon';
+        else if (h >= 17 && h < 21) g = 'Good Evening';
+        return `${g}, ${name || 'Founder'}`;
+      }
+
+      /* ---------------------------------------------------------------------
+         2. DEFAULT STATE (INITIALIZES CLEANLY AT 0)
+         --------------------------------------------------------------------- */
+      const DEFAULT_WALLETS = [
+        { id: 'w_binance', name: 'Binance', currency: 'USD', baseBalance: 0, icon: 'coins', core: true },
+        { id: 'w_web3', name: 'Web3', currency: 'USD', baseBalance: 0, icon: 'hexagon', core: true },
+        { id: 'w_bank', name: 'Bank', currency: 'BDT', baseBalance: 0, icon: 'landmark', core: true },
+        { id: 'w_bkash', name: 'bKash', currency: 'BDT', baseBalance: 0, icon: 'smartphone', core: true },
+        { id: 'w_nagad', name: 'Nagad', currency: 'BDT', baseBalance: 0, icon: 'credit-card', core: true },
+        { id: 'w_moneybag', name: 'MoneyBag', currency: 'BDT', baseBalance: 0, icon: 'banknote', core: true }
+      ];
+
+      const DEFAULT_EXPENSE_CATS = [
+        { id: 'cat_rice', name: 'Food - Rice', icon: 'utensils', defaultTag: 'essential' },
+        { id: 'cat_gas', name: 'Gas Cylinder', icon: 'flame', defaultTag: 'essential' },
+        { id: 'cat_egg', name: 'Egg', icon: 'egg', defaultTag: 'essential' },
+        { id: 'cat_bike_fuel', name: 'Bike Fuel', icon: 'fuel', defaultTag: 'essential' },
+        { id: 'cat_bike_service', name: 'Bike Servicing', icon: 'wrench', defaultTag: 'essential' },
+        { id: 'cat_internet', name: 'Internet', icon: 'wifi', defaultTag: 'essential', subOptions: ['WiFi', 'Mobile Data'] },
+        { id: 'cat_hat_khoroj', name: 'Hat Khoroj (Pocket Money)', icon: 'coins', defaultTag: 'impulse' },
+        { id: 'cat_family_food', name: 'Family Food', icon: 'shopping-basket', defaultTag: 'essential' },
+        { id: 'cat_extra_family', name: 'Extra Food for Family', icon: 'soup', defaultTag: 'social' },
+        { id: 'cat_fastfood', name: 'Own Fastfood', icon: 'pizza', defaultTag: 'impulse' },
+        { id: 'cat_emergency', name: 'Emergency Cost', icon: 'siren', defaultTag: 'essential' },
+        { id: 'cat_bills', name: 'Bills / Rent', icon: 'receipt', defaultTag: 'essential' },
+        { id: 'cat_health', name: 'Health / Medicine', icon: 'heart-pulse', defaultTag: 'essential' },
+        { id: 'cat_shopping', name: 'Shopping', icon: 'shopping-bag', defaultTag: 'impulse' },
+        { id: 'cat_other', name: 'Other', icon: 'layers', defaultTag: 'essential' }
+      ];
+
+      const DEFAULT_INCOME_CATS = [
+        { id: 'inc_crypto', name: 'Crypto / Airdrop / Trading', icon: 'trending-up' },
+        { id: 'inc_freelance', name: 'Freelance / Salary', icon: 'briefcase' },
+        { id: 'inc_business', name: 'Business Profit', icon: 'store' },
+        { id: 'inc_family', name: 'Family Support', icon: 'home' },
+        { id: 'inc_other', name: 'Other Income', icon: 'plus-circle' }
+      ];
+
+      function defaultState() {
+        return {
+          settings: {
+            userName: 'Founder',
+            theme: 'orange', // 'bw' | 'orange' | 'neon'
+            privacyMasked: false,
+            locked: false,
+            pin: '1234',
+            usdRate: 122,
+            startingCapital: 0,
+            goalTarget: 0,
+            cycleStartDate: todayISO(),
+            cycleDays: 90,
+            quickFoodWalletId: 'w_moneybag'
+          },
+          lockedVault: {
+            title: 'FDR / DPS Savings',
+            principal: 0,
+            annualRate: 8.5,
+            months: 12
+          },
+          wallets: JSON.parse(JSON.stringify(DEFAULT_WALLETS)),
+          expenseCats: JSON.parse(JSON.stringify(DEFAULT_EXPENSE_CATS)),
+          incomeCats: JSON.parse(JSON.stringify(DEFAULT_INCOME_CATS)),
+          transactions: [],
+          bills: [],
+          dues: [],
+          debts: []
+        };
+      }
+
+      function sanitizeState(raw) {
+        const def = defaultState();
+        if (!raw || typeof raw !== 'object') return def;
+        const s = raw.settings || {};
+        const lv = raw.lockedVault || {};
+        const validThemes = ['bw', 'orange', 'neon'];
+        return {
+          settings: {
+            ...def.settings,
+            ...s,
+            theme: validThemes.includes(s.theme) ? s.theme : 'orange',
+            usdRate: Number(s.usdRate) > 0 ? round2(s.usdRate) : 122
+          },
+          lockedVault: {
+            title: String(lv.title || 'FDR / DPS Savings'),
+            principal: Math.max(0, round2(lv.principal || 0)),
+            annualRate: Math.max(0, round2(lv.annualRate || 0)),
+            months: Math.max(1, parseInt(lv.months || 12, 10) || 12)
+          },
+          wallets: Array.isArray(raw.wallets) && raw.wallets.length ? raw.wallets : def.wallets,
+          expenseCats: Array.isArray(raw.expenseCats) && raw.expenseCats.length ? raw.expenseCats : def.expenseCats,
+          incomeCats: Array.isArray(raw.incomeCats) && raw.incomeCats.length ? raw.incomeCats : def.incomeCats,
+          transactions: Array.isArray(raw.transactions) ? raw.transactions : [],
+          bills: Array.isArray(raw.bills) ? raw.bills : [],
+          dues: Array.isArray(raw.dues) ? raw.dues : [],
+          debts: Array.isArray(raw.debts) ? raw.debts : []
+        };
+      }
+
+      let AppState = (() => {
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('wealthvault_en_v4');
+          return saved ? sanitizeState(JSON.parse(saved)) : defaultState();
+        } catch {
+          return defaultState();
+        }
+      })();
+
+      function saveState() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(AppState));
+        } catch {
+          toast('Storage limit reached — please export a JSON backup.', 'error');
+        }
+      }
+
+      let activeTab = 'overview';
+      let histFilter = 'all';
+      let histWallet = 'all';
+      let histQuery = '';
+      let chartRef = null;
+      const animCache = new Map();
+      const rafCache = new Map();
+
+      /* ---------------------------------------------------------------------
+         3. AUTOMATIC ATOMIC CALCULATION & PNL ENGINE
+         --------------------------------------------------------------------- */
+      const getWallet = (id) => AppState.wallets.find((w) => w.id === id) || null;
+      const getCat = (id, type = 'expense') => {
+        const arr = type === 'income' ? AppState.incomeCats : AppState.expenseCats;
+        return arr.find((c) => c.id === id) || { id: id || 'other', name: 'Other', icon: 'tag', defaultTag: 'essential' };
+      };
+      const toBDT = (amt, cur, customRate = null) => {
+        const r = Number(customRate) > 0 ? Number(customRate) : Number(AppState.settings.usdRate || 122);
+        return cur === 'USD' ? round2(Number(amt || 0) * r) : round2(Number(amt || 0));
+      };
+
+      function calculateAll() {
+        const rate = Number(AppState.settings.usdRate) > 0 ? round2(AppState.settings.usdRate) : 122;
+        const balances = {};
+        for (const w of AppState.wallets) balances[w.id] = round2(w.baseBalance || 0);
+
+        const today = todayISO();
+        const monthKey = today.slice(0, 7);
+        let monthIn = 0, monthOut = 0, monthNeeds = 0, monthWants = 0;
+        const catTotals = {};
+
+        for (const tx of AppState.transactions) {
+          const isThisMonth = String(tx.date || today).startsWith(monthKey);
+
+          if (tx.type === 'income') {
+            const amt = Math.max(0, round2(tx.amount));
+            if (balances[tx.walletId] !== undefined) balances[tx.walletId] = round2(balances[tx.walletId] + amt);
+            const w = getWallet(tx.walletId);
+            const bdt = toBDT(amt, w ? w.currency : 'BDT', tx.exchangeRate || rate);
+            if (isThisMonth) monthIn = round2(monthIn + bdt);
+          } else if (tx.type === 'expense') {
+            const amt = Math.max(0, round2(tx.amount));
+            if (balances[tx.walletId] !== undefined) balances[tx.walletId] = round2(balances[tx.walletId] - amt);
+            const w = getWallet(tx.walletId);
+            const bdt = toBDT(amt, w ? w.currency : 'BDT', tx.exchangeRate || rate);
+            if (isThisMonth) {
+              monthOut = round2(monthOut + bdt);
+              if (tx.tag === 'essential') monthNeeds = round2(monthNeeds + bdt);
+              else monthWants = round2(monthWants + bdt);
+              const c = getCat(tx.categoryId, 'expense');
+              catTotals[c.name] = round2((catTotals[c.name] || 0) + bdt);
+            }
+          } else if (tx.type === 'transfer') {
+            const fAmt = Math.max(0, round2(tx.fromAmount));
+            const tAmt = Math.max(0, round2(tx.toAmount));
+            if (balances[tx.fromWalletId] !== undefined) balances[tx.fromWalletId] = round2(balances[tx.fromWalletId] - fAmt);
+            if (balances[tx.toWalletId] !== undefined) balances[tx.toWalletId] = round2(balances[tx.toWalletId] + tAmt);
+            const fee = Math.max(0, round2(tx.fee || 0));
+            if (fee > 0) {
+              const fwId = tx.feeWalletId || tx.fromWalletId;
+              if (balances[fwId] !== undefined) balances[fwId] = round2(balances[fwId] - fee);
+              const fw = getWallet(fwId);
+              const feeBdt = toBDT(fee, fw ? fw.currency : 'BDT', tx.exchangeRate || rate);
+              if (isThisMonth) {
+                monthOut = round2(monthOut + feeBdt);
+                monthNeeds = round2(monthNeeds + feeBdt);
+                catTotals['Transfer Fee'] = round2((catTotals['Transfer Fee'] || 0) + feeBdt);
+              }
+            }
+          } else if (tx.type === 'due_settle') {
+            const amt = Math.max(0, round2(tx.amount));
+            if (balances[tx.walletId] !== undefined) {
+              const delta = tx.dueType === 'receivable' ? amt : -amt;
+              balances[tx.walletId] = round2(balances[tx.walletId] + delta);
+            }
+          }
+        }
+
+        let cashBdt = 0, vaultUsd = 0;
+        for (const w of AppState.wallets) {
+          const b = balances[w.id] || 0;
+          if (w.currency === 'USD') vaultUsd = round2(vaultUsd + b);
+          else cashBdt = round2(cashBdt + b);
+        }
+
+        const vaultBdt = round2(vaultUsd * rate);
+        const netWorth = round2(cashBdt + vaultBdt);
+
+        // Automatic PnL Calculation
+        const startCap = round2(AppState.settings.startingCapital || 0);
+        const pnlAmount = round2(netWorth - startCap);
+        const pnlPct = startCap > 0 ? round2((pnlAmount / startCap) * 100) : 0;
+
+        // Cycle Days Remaining
+        const cycleDays = Math.max(1, parseInt(AppState.settings.cycleDays || 90, 10));
+        const startD = new Date((AppState.settings.cycleStartDate || today) + 'T00:00:00');
+        const todayD = new Date(today + 'T00:00:00');
+        const elapsed = Math.max(0, Math.floor((todayD - startD) / 86400000));
+        const daysLeft = Math.max(1, cycleDays - elapsed);
+
+        // Unpaid Bills & 3-Day Due Alert
+        const unpaidBills = AppState.bills.filter((b) => !b.paid);
+        const reservedBillsBdt = round2(unpaidBills.reduce((s, b) => s + Math.max(0, round2(b.amount)), 0));
+        const urgentBills = unpaidBills.filter((b) => {
+          if (!b.dueDate) return false;
+          const diff = Math.ceil((new Date(b.dueDate + 'T00:00:00') - todayD) / 86400000);
+          return diff <= 3;
+        });
+
+        // Safe-to-Spend Daily Limit
+        const safePool = round2(cashBdt - reservedBillsBdt);
+        const safeDaily = safePool > 0 ? round2(safePool / daysLeft) : 0;
+
+        // No-Impulse Streak
+        const impDates = AppState.transactions
+          .filter((t) => t.type === 'expense' && t.tag === 'impulse' && t.date && t.date <= today)
+          .map((t) => t.date).sort();
+        let streak = 0;
+        if (impDates.length) {
+          streak = Math.max(0, Math.floor((todayD - new Date(impDates[impDates.length - 1] + 'T00:00:00')) / 86400000));
+        } else if (AppState.transactions.length) {
+          const first = AppState.transactions.map((t) => t.date).filter(Boolean).sort()[0];
+          if (first) streak = Math.max(1, Math.floor((todayD - new Date(first + 'T00:00:00')) / 86400000) + 1);
+        }
+
+        // 50/30/20 Ratio
+        const monthNet = round2(monthIn - monthOut);
+        let pctNeeds = 0, pctWants = 0, pctSave = 0;
+        if (monthIn > 0) {
+          pctNeeds = Math.min(100, round2((monthNeeds / monthIn) * 100));
+          pctWants = Math.min(round2(100 - pctNeeds), round2((monthWants / monthIn) * 100));
+          pctSave = Math.max(0, round2(100 - pctNeeds - pctWants));
+        } else if (monthOut > 0) {
+          pctNeeds = round2((monthNeeds / monthOut) * 100);
+          pctWants = round2(100 - pctNeeds);
+        }
+
+        // Dynamic Fintech Health Score (0-100)
+        let healthScore = null;
+        let guardianQuote = 'Add wallet balances & daily expenses';
+        if (startCap > 0 || netWorth > 0 || AppState.transactions.length > 0) {
+          let sPts = 24;
+          if (monthIn > 0) {
+            const sr = Math.max(0, (monthIn - monthOut) / monthIn);
+            sPts = Math.min(40, Math.round((sr / 0.25) * 40));
+          } else if (startCap > 0) {
+            sPts = pnlAmount >= 0 ? 32 : Math.max(8, 24 + Math.round(pnlPct / 2));
+          }
+
+          let bPts = 30;
+          if (reservedBillsBdt > 0) {
+            if (cashBdt >= reservedBillsBdt * 1.5) bPts = 30;
+            else if (cashBdt >= reservedBillsBdt) bPts = 22;
+            else bPts = Math.max(5, Math.round((cashBdt / reservedBillsBdt) * 20));
+          }
+
+          let iPts = 30;
+          if (monthOut > 0) {
+            const wantShare = monthWants / monthOut;
+            iPts = Math.max(0, Math.min(30, Math.round((1 - wantShare) * 30)));
+          }
+
+          healthScore = Math.max(0, Math.min(100, sPts + bPts + iPts));
+          if (healthScore > 80) guardianQuote = 'Strong discipline — savings & bill coverage are solid';
+          else if (healthScore >= 60) guardianQuote = 'Steady control — trim impulse spending to boost score';
+          else guardianQuote = 'Warning — tight cash coverage or high impulse spend';
+        }
+
+        // Locked FDR/DPS Compounding Calculation
+        const lv = AppState.lockedVault;
+        const maturityVal = round2(lv.principal * Math.pow(1 + (lv.annualRate / 100), lv.months / 12));
+
+        return {
+          rate, balances, cashBdt, vaultUsd, vaultBdt, netWorth,
+          startCap, pnlAmount, pnlPct, daysLeft, cycleDays,
+          reservedBillsBdt, urgentBills, safeDaily, streak,
+          monthIn, monthOut, monthNet, pctNeeds, pctWants, pctSave,
+          catTotals, healthScore, guardianQuote, maturityVal
+        };
+      }
+
+      /* ---------------------------------------------------------------------
+         4. SMOOTH NUMBER ROLL-UP & TOAST
+         --------------------------------------------------------------------- */
+      function rollNumber(id, target, formatter) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (rafCache.has(id)) cancelAnimationFrame(rafCache.get(id));
+
+        const dest = round2(target);
+        const start = animCache.has(id) ? animCache.get(id) : dest;
+        if (Math.abs(dest - start) < 0.01) {
+          el.textContent = formatter(dest);
+          animCache.set(id, dest);
+          return;
+        }
+
+        const t0 = performance.now();
+        const dur = 360;
+        const tick = (now) => {
+          const p = Math.min(1, (now - t0) / dur);
+          const ease = 1 - Math.pow(1 - p, 3);
+          const cur = start + (dest - start) * ease;
+          el.textContent = formatter(p < 1 ? cur : dest);
+          if (p < 1) rafCache.set(id, requestAnimationFrame(tick));
+          else { animCache.set(id, dest); rafCache.delete(id); }
+        };
+        rafCache.set(id, requestAnimationFrame(tick));
+      }
+
+      function toast(msg, type = 'success') {
+        const stack = document.getElementById('toastStack');
+        const el = document.createElement('div');
+        const dotStyle = type === 'error' ? 'var(--expense)' : type === 'info' ? 'var(--accent)' : 'var(--income)';
+        el.className = 'pointer-events-auto glass-card bg-white/95 px-4 py-3 flex items-center gap-2.5 text-xs font-bold shadow-xl transition-all';
+        el.innerHTML = `<span class="w-2 h-2 rounded-full shrink-0" style="background: ${dotStyle};"></span><span class="flex-1">${esc(msg)}</span>`;
+        stack.appendChild(el);
+        setTimeout(() => {
+          el.style.opacity = '0';
+          el.style.transform = 'translateY(8px)';
+          setTimeout(() => el.remove(), 220);
+        }, 2800);
+      }
+
+      function askConfirm(title, message, onConfirm) {
+        document.getElementById('confirmTitle').textContent = title;
+        document.getElementById('confirmMessage').textContent = message;
+        const bd = document.getElementById('confirmBackdrop');
+        bd.classList.remove('hidden');
+
+        const cleanup = () => bd.classList.add('hidden');
+        document.getElementById('btnConfirmCancel').onclick = cleanup;
+        document.getElementById('btnConfirmOk').onclick = () => {
+          cleanup();
+          onConfirm();
+        };
+      }
+
+      /* ---------------------------------------------------------------------
+         5. NATURAL LANGUAGE QUICK PARSER (ENGLISH)
+         --------------------------------------------------------------------- */
+      function parseQuickText(raw) {
+        const norm = (raw || '').trim();
+        if (!norm) return null;
+        const lower = norm.toLowerCase();
+
+        const isIncome = /^\s*\+|(?:\b(?:income|salary|freelance|profit|bonus|earned|received)\b)/i.test(lower);
+        const numMatch = norm.match(/(?:^|\s|\$|\+|tk)(\d+(?:\.\d{1,2})?)(?:\s|tk|bdt|usd|\$|$)/i) || norm.match(/(\d+(?:\.\d{1,2})?)/);
+        const amount = numMatch ? round2(parseFloat(numMatch[1])) : 0;
+
+        let wallet = AppState.wallets.find((w) => lower.includes(w.name.toLowerCase()));
+        if (!wallet) {
+          const map = { cash: 'w_moneybag', hand: 'w_moneybag' };
+          for (const [k, id] of Object.entries(map)) {
+            if (lower.includes(k)) { wallet = getWallet(id); break; }
+          }
+        }
+        if (!wallet) wallet = getWallet(AppState.settings.quickFoodWalletId) || AppState.wallets.find((w) => w.currency === 'BDT') || AppState.wallets[0];
+
+        if (isIncome) {
+          let incCat = AppState.incomeCats[0];
+          if (/crypto|binance|airdrop|trade|web3/i.test(lower)) incCat = getCat('inc_crypto', 'income');
+          else if (/freelance|salary/i.test(lower)) incCat = getCat('inc_freelance', 'income');
+          else if (/business|profit/i.test(lower)) incCat = getCat('inc_business', 'income');
+          else if (/family/i.test(lower)) incCat = getCat('inc_family', 'income');
+          return { type: 'income', amount, category: incCat, subOption: '', wallet, tag: '', note: norm };
+        }
+
+        let subOption = '';
+        if (/\bwifi\b|broadband/i.test(lower)) subOption = 'WiFi';
+        else if (/mobile\s*data|\bdata\b|\bmb\b/i.test(lower)) subOption = 'Mobile Data';
+
+        const rules = [
+          { id: 'cat_bike_fuel', keys: ['bike fuel', 'fuel', 'petrol', 'octane'] },
+          { id: 'cat_bike_service', keys: ['servicing', 'service', 'mobil', 'garage'] },
+          { id: 'cat_rice', keys: ['rice', 'chal'] },
+          { id: 'cat_gas', keys: ['gas', 'cylinder'] },
+          { id: 'cat_egg', keys: ['egg', 'eggs'] },
+          { id: 'cat_internet', keys: ['internet', 'wifi', 'mobile data', 'mb'] },
+          { id: 'cat_hat_khoroj', keys: ['hat khoroj', 'pocket'] },
+          { id: 'cat_extra_family', keys: ['extra food', 'extra family'] },
+          { id: 'cat_family_food', keys: ['family food', 'bazar', 'grocery', 'family'] },
+          { id: 'cat_fastfood', keys: ['fastfood', 'fast food', 'burger', 'pizza', 'tea', 'coffee'] },
+          { id: 'cat_emergency', keys: ['emergency', 'urgent'] },
+          { id: 'cat_bills', keys: ['rent', 'bill', 'electricity'] },
+          { id: 'cat_health', keys: ['health', 'medicine', 'doctor'] },
+          { id: 'cat_shopping', keys: ['shopping', 'cloth', 'shirt', 'shoe'] }
+        ];
+
+        let cat = AppState.expenseCats.find((c) => lower.includes(c.name.toLowerCase()));
+        if (!cat) {
+          for (const r of rules) {
+            if (r.keys.some((k) => lower.includes(k))) { cat = getCat(r.id, 'expense'); break; }
+          }
+        }
+        if (!cat) cat = getCat('cat_other', 'expense');
+        if (cat.id === 'cat_internet' && !subOption) subOption = 'WiFi';
+
+        let tag = cat.defaultTag || 'essential';
+        if (/impulse|want/i.test(lower)) tag = 'impulse';
+        else if (/social|hangout/i.test(lower)) tag = 'social';
+
+        return { type: 'expense', amount, category: cat, subOption, wallet, tag, note: norm };
+      }
+
+      /* ---------------------------------------------------------------------
+         6. MASTER RENDER PIPELINE
+         --------------------------------------------------------------------- */
+      function applyTheme() {
+        const theme = AppState.settings.theme || 'orange';
+        document.documentElement.setAttribute('data-theme', theme);
+        document.querySelectorAll('.theme-opt-btn').forEach((btn) => {
+          const active = btn.dataset.setTheme === theme;
+          btn.style.background = active ? 'var(--primary)' : 'transparent';
+          btn.style.color = active ? 'var(--primary-text)' : 'var(--text-sub)';
+          btn.style.boxShadow = active ? '0 2px 8px -2px var(--primary-glow)' : 'none';
+        });
+      }
+
+      function renderAll() {
+        applyTheme();
+        const m = calculateAll();
+
+        // Lock Screen & Privacy Mask
+        document.getElementById('lockScreenOverlay').classList.toggle('hidden', !AppState.settings.locked);
+        document.body.classList.toggle('privacy-masked', Boolean(AppState.settings.privacyMasked));
+        document.getElementById('eyeIconSlot').innerHTML = `<i data-lucide="${AppState.settings.privacyMasked ? 'eye-off' : 'eye'}" class="w-4 h-4"></i>`;
+
+        // Greeting & Health Pill
+        document.getElementById('headerGreeting').textContent = getEnglishGreeting(AppState.settings.userName);
+        const hPill = document.getElementById('headerHealthPill');
+        const hText = document.getElementById('headerHealthText');
+        const hDot = document.getElementById('headerHealthDot');
+
+        if (m.healthScore === null) {
+          hPill.style.background = 'var(--glass-subtle)';
+          hPill.style.color = 'var(--text-sub)';
+          hDot.style.background = 'var(--text-muted)';
+          hText.textContent = 'Health --';
+        } else if (m.healthScore > 80) {
+          hPill.style.background = 'var(--income-soft)';
+          hPill.style.color = 'var(--income)';
+          hDot.style.background = 'var(--income)';
+          hText.textContent = `Health ${m.healthScore}/100`;
+        } else if (m.healthScore >= 60) {
+          hPill.style.background = 'var(--accent-soft)';
+          hPill.style.color = 'var(--accent)';
+          hDot.style.background = 'var(--accent)';
+          hText.textContent = `Health ${m.healthScore}/100`;
+        } else {
+          hPill.style.background = 'var(--expense-soft)';
+          hPill.style.color = 'var(--expense)';
+          hDot.style.background = 'var(--expense)';
+          hText.textContent = `Health ${m.healthScore}/100`;
+        }
+        document.getElementById('healthGuardianQuote').textContent = m.guardianQuote;
+
+        // Due Bill 3-Day Alert Banner
+        const alertBanner = document.getElementById('dueAlertBanner');
+        if (m.urgentBills.length > 0) {
+          alertBanner.classList.remove('hidden');
+          const names = m.urgentBills.map((b) => `${b.title} (${fmtBDT(b.amount)})`).join(', ');
+          document.getElementById('dueAlertText').textContent = `Upcoming Bill Reminder (Due within 3 days): ${names} — Auto-reserved from Safe-to-Spend`;
+        } else {
+          alertBanner.classList.add('hidden');
+        }
+
+        // Quick Family Food Wallet Dropdown
+        const qfSel = document.getElementById('quickFoodWalletSel');
+        qfSel.innerHTML = AppState.wallets.filter((w) => w.currency === 'BDT').map((w) =>
+          `<option value="${esc(w.id)}" ${w.id === AppState.settings.quickFoodWalletId ? 'selected' : ''}>${esc(w.name)}</option>`
+        ).join('');
+
+        // Hero Card 1: Total Available Net Worth
+        rollNumber('valNetWorth', m.netWorth, (v) => fmtBDT(v));
+        rollNumber('valCashBdt', m.cashBdt, (v) => fmtBDT(v));
+        rollNumber('valVaultBdt', m.vaultBdt, (v) => `~ ${fmtBDT(v)}`);
+
+        // Hero Card 2: Automatic PnL (Day 1 vs Current)
+        document.getElementById('valStartCap').textContent = fmtBDT(m.startCap);
+        const pnlBadge = document.getElementById('pnlStatusBadge');
+        const pnlAmtEl = document.getElementById('valPnlAmount');
+        const pnlPctEl = document.getElementById('valPnlPct');
+
+        if (m.startCap <= 0 && m.netWorth === 0) {
+          pnlAmtEl.textContent = 'Tk 0';
+          pnlAmtEl.style.color = 'var(--text-main)';
+          pnlPctEl.textContent = '0.0%';
+          pnlPctEl.style.color = 'var(--text-muted)';
+          pnlBadge.textContent = 'Set Day 1 Fund';
+          pnlBadge.style.background = 'var(--glass-subtle)';
+          pnlBadge.style.color = 'var(--text-sub)';
+        } else {
+          rollNumber('valPnlAmount', m.pnlAmount, (v) => fmtBDT(v, true));
+          const isProfit = m.pnlAmount >= 0;
+          const colorVar = isProfit ? 'var(--income)' : 'var(--expense)';
+          const softVar = isProfit ? 'var(--income-soft)' : 'var(--expense-soft)';
+          pnlAmtEl.style.color = colorVar;
+          pnlPctEl.textContent = m.startCap > 0 ? `${m.pnlPct >= 0 ? '+' : ''}${m.pnlPct.toFixed(1)}%` : 'New Capital';
+          pnlPctEl.style.color = colorVar;
+          pnlBadge.textContent = isProfit ? 'Profit / Savings' : 'Loss / Deficit';
+          pnlBadge.style.background = softVar;
+          pnlBadge.style.color = colorVar;
+        }
+
+        // Hero Card 3: Monthly Cashflow
+        rollNumber('valMonthNet', m.monthNet, (v) => fmtBDT(v, true));
+        document.getElementById('valMonthNet').style.color = m.monthNet >= 0 ? 'var(--income)' : 'var(--expense)';
+        rollNumber('valMonthIn', m.monthIn, (v) => `+${fmtBDT(v)}`);
+        rollNumber('valMonthOut', m.monthOut, (v) => `-${fmtBDT(v)}`);
+
+        // Hero Card 4: Safe-to-Spend & Streak
+        rollNumber('valSafeSpend', m.safeDaily, (v) => fmtBDT(v));
+        document.getElementById('valReservedBills').textContent = fmtBDT(m.reservedBillsBdt);
+        document.getElementById('valDaysLeft').textContent = `${m.daysLeft}d left`;
+        document.getElementById('valStreakBadge').textContent = `${m.streak}d No-Impulse`;
+
+        // USD Rate Input
+        const rInput = document.getElementById('inputUsdRate');
+        if (document.activeElement !== rInput) rInput.value = m.rate;
+
+        // Wallets
+        renderWalletCards(m);
+
+        // 50/30/20 Bar
+        document.getElementById('pctNeeds').textContent = `${m.pctNeeds}%`;
+        document.getElementById('pctWants').textContent = `${m.pctWants}%`;
+        document.getElementById('pctSave').textContent = `${m.pctSave}%`;
+        document.getElementById('barNeeds').style.width = `${m.pctNeeds}%`;
+        document.getElementById('barWants').style.width = `${m.pctWants}%`;
+        document.getElementById('barSave').style.width = `${m.pctSave}%`;
+
+        // Locked FDR/DPS Vault
+        document.getElementById('valLockedPrincipal').textContent = fmtBDT(AppState.lockedVault.principal);
+        document.getElementById('valLockedMaturity').textContent = fmtBDT(m.maturityVal);
+
+        // Goal Jar
+        const gTarget = round2(AppState.settings.goalTarget || 0);
+        const gPct = gTarget > 0 ? Math.min(100, round2((Math.max(0, m.netWorth) / gTarget) * 100)) : 0;
+        document.getElementById('valGoalNow').textContent = fmtBDT(Math.max(0, m.netWorth));
+        document.getElementById('valGoalTarget').textContent = fmtBDT(gTarget);
+        document.getElementById('valGoalPct').textContent = `${gPct}%`;
+        document.getElementById('barGoal').style.width = `${gPct}%`;
+
+        // Recent Feed, Chart, History, Vaults & Plan
+        renderRecentFeed();
+        renderChart(m);
+        renderHistoryView(m);
+        renderVaultsView(m);
+        updateNavStyles();
+
+        lucide.createIcons();
+      }
+
+      function renderWalletCards(m) {
+        const bdtW = AppState.wallets.filter((w) => w.currency === 'BDT');
+        const usdW = AppState.wallets.filter((w) => w.currency === 'USD');
+
+        document.getElementById('bdtWalletsList').innerHTML = bdtW.map((w) => {
+          const bal = m.balances[w.id] || 0;
+          return `
+            <div class="p-3.5 rounded-2xl bg-white/85 flex flex-col justify-between gap-2.5" style="border: 1px solid var(--border-hairline);">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold truncate" style="color: var(--text-sub);">${esc(w.name)}</span>
+                <div class="flex items-center gap-1">
+                  <button data-sync-wallet="${esc(w.id)}" title="Sync Real Cash" class="w-7 h-7 rounded-lg flex items-center justify-center transition-colors" style="background: var(--glass-subtle);">
+                    <i data-lucide="refresh-cw" class="w-3 h-3" style="color: var(--text-sub);"></i>
+                  </button>
+                  ${!w.core ? `
+                  <button data-del-wallet="${esc(w.id)}" title="Delete Wallet" class="w-7 h-7 rounded-lg flex items-center justify-center" style="background: var(--expense-soft);">
+                    <i data-lucide="trash-2" class="w-3 h-3" style="color: var(--expense);"></i>
+                  </button>` : ''}
+                </div>
+              </div>
+              <div class="money-val text-base font-extrabold" style="color: var(--text-main);">${fmtBDT(bal)}</div>
+            </div>
+          `;
+        }).join('');
+
+        document.getElementById('usdWalletsList').innerHTML = usdW.map((w) => {
+          const bal = m.balances[w.id] || 0;
+          const bdtEq = round2(bal * m.rate);
+          return `
+            <div class="p-3.5 rounded-2xl bg-white/85 flex flex-col justify-between gap-2" style="border: 1px solid var(--border-hairline);">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold" style="color: var(--text-main);">${esc(w.name)}</span>
+                <button data-sync-wallet="${esc(w.id)}" title="Sync USD Balance" class="w-7 h-7 rounded-lg flex items-center justify-center" style="background: var(--glass-subtle);">
+                  <i data-lucide="refresh-cw" class="w-3 h-3" style="color: var(--text-sub);"></i>
+                </button>
+              </div>
+              <div>
+                <div class="money-val text-base font-extrabold" style="color: var(--accent);">${fmtUSD(bal)}</div>
+                <div class="money-val text-[11px] font-semibold" style="color: var(--text-sub);">~ ${fmtBDT(bdtEq)}</div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      function txRowHTML(tx) {
+        const isEss = tx.type === 'expense' && tx.tag === 'essential';
+        const tagBadges = {
+          essential: `<span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold" style="background: var(--accent-soft); color: var(--accent);">Essential</span>`,
+          impulse: `<span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold" style="background: var(--expense-soft); color: var(--expense);">Impulse</span>`,
+          social: `<span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold" style="background: var(--vault-soft); color: var(--vault);">Social</span>`
+        };
+
+        let title = '', sub = '', amtText = '', amtStyle = 'color: var(--text-main);', icon = 'circle-dot';
+        if (tx.type === 'expense') {
+          const c = getCat(tx.categoryId, 'expense');
+          const w = getWallet(tx.walletId);
+          title = `${c.name}${tx.subOption ? ` - ${tx.subOption}` : ''}`;
+          sub = `${w ? w.name : ''} | ${tx.date}${tx.note ? ` | ${tx.note}` : ''}`;
+          amtText = `-${fmtMoney(tx.amount, w ? w.currency : 'BDT')}`;
+          amtStyle = 'color: var(--expense);';
+          icon = c.icon || 'receipt';
+        } else if (tx.type === 'income') {
+          const c = getCat(tx.categoryId, 'income');
+          const w = getWallet(tx.walletId);
+          title = c.name;
+          sub = `${w ? w.name : ''} | ${tx.date}${tx.note ? ` | ${tx.note}` : ''}`;
+          amtText = fmtMoney(tx.amount, w ? w.currency : 'BDT', true);
+          amtStyle = 'color: var(--income);';
+          icon = c.icon || 'arrow-down-left';
+        } else if (tx.type === 'transfer') {
+          const fw = getWallet(tx.fromWalletId);
+          const tw = getWallet(tx.toWalletId);
+          title = `${fw ? fw.name : ''} to ${tw ? tw.name : ''}`;
+          sub = `Transfer | ${tx.date}${tx.fee > 0 ? ` | Fee: ${tx.fee}` : ''}${tx.note ? ` | ${tx.note}` : ''}`;
+          amtText = `${fmtMoney(tx.fromAmount, fw?.currency)} -> ${fmtMoney(tx.toAmount, tw?.currency)}`;
+          amtStyle = 'color: var(--accent);';
+          icon = 'arrow-left-right';
+        } else if (tx.type === 'due_settle') {
+          const w = getWallet(tx.walletId);
+          const isRec = tx.dueType === 'receivable';
+          title = `${isRec ? 'Receivable Collected' : 'Payable Paid'}: ${tx.note || ''}`;
+          sub = `${w ? w.name : ''} | ${tx.date}`;
+          amtText = isRec ? fmtMoney(tx.amount, w?.currency, true) : `-${fmtMoney(tx.amount, w?.currency)}`;
+          amtStyle = isRec ? 'color: var(--income);' : 'color: var(--expense);';
+          icon = 'handshake';
+        }
+
+        return `
+          <div class="p-3 rounded-2xl bg-white/85 flex items-center justify-between gap-2.5 ${isEss ? 'tx-essential' : ''}" style="border: 1px solid var(--border-hairline);">
+            <div class="flex items-center gap-2.5 min-w-0">
+              <div class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style="background: var(--glass-subtle); color: var(--accent);">
+                <i data-lucide="${esc(icon)}" class="w-4 h-4"></i>
+              </div>
+              <div class="min-w-0">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="text-xs font-extrabold truncate">${esc(title)}</span>
+                  ${tx.type === 'expense' ? (tagBadges[tx.tag] || '') : ''}
+                </div>
+                <p class="text-[11px] truncate mt-0.5" style="color: var(--text-sub);">${esc(sub)}</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <span class="money-val text-xs font-extrabold" style="${amtStyle}">${esc(amtText)}</span>
+              ${tx.type !== 'due_settle' ? `
+                <button data-edit-tx="${esc(tx.id)}" class="glass-pill w-8 h-8 rounded-lg flex items-center justify-center"><i data-lucide="pencil" class="w-3 h-3"></i></button>
+              ` : ''}
+              <button data-del-tx="${esc(tx.id)}" class="glass-pill w-8 h-8 rounded-lg flex items-center justify-center" style="color: var(--expense);"><i data-lucide="trash-2" class="w-3 h-3"></i></button>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderRecentFeed() {
+        const el = document.getElementById('recentTxList');
+        const list = [...AppState.transactions]
+          .sort((a, b) => String(b.date + (b.createdAt || '')).localeCompare(String(a.date + (a.createdAt || ''))))
+          .slice(0, 6);
+        el.innerHTML = list.length
+          ? list.map(txRowHTML).join('')
+          : `<div class="p-8 text-center rounded-2xl text-xs font-semibold" style="background: var(--glass-subtle); color: var(--text-muted);">No transactions yet — use the Quick Bar above or click + Add</div>`;
+      }
+
+      function renderChart(m) {
+        const entries = Object.entries(m.catTotals).sort((a, b) => b[1] - a[1]);
+        const noData = document.getElementById('chartNoData');
+        const canvas = document.getElementById('expenseChart');
+        if (chartRef) { chartRef.destroy(); chartRef = null; }
+        if (!entries.length) { noData.classList.remove('hidden'); return; }
+        noData.classList.add('hidden');
+
+        const themePalettes = {
+          bw: ['#09090B', '#3F3F46', '#71717A', '#A1A1AA', '#D4D4D8', '#18181B', '#52525B'],
+          orange: ['#F97316', '#334155', '#FB923C', '#64748B', '#EA580C', '#94A3B8', '#FDBA74'],
+          neon: ['#6366F1', '#00D4FF', '#00E599', '#FF2E63', '#8B5CF6', '#38BDF8', '#34D399']
+        };
+        const colors = themePalettes[AppState.settings.theme] || themePalettes.orange;
+
+        chartRef = new Chart(canvas.getContext('2d'), {
+          type: 'doughnut',
+          data: {
+            labels: entries.map((e) => e[0]),
+            datasets: [{
+              data: entries.map((e) => e[1]),
+              backgroundColor: entries.map((_, i) => colors[i % colors.length]),
+              borderWidth: 2,
+              borderColor: '#FFFFFF'
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '68%',
+            plugins: {
+              legend: {
+                position: 'right',
+                labels: { boxWidth: 9, usePointStyle: true, font: { size: 11, weight: '600' }, color: '#475569' }
+              },
+              tooltip: {
+                callbacks: {
+                  label: (ctx) => AppState.settings.privacyMasked ? ` ${ctx.label}: ******` : ` ${ctx.label}: ${fmtBDT(ctx.parsed)}`
+                }
+              }
+            }
+          }
+        });
+      }
+
+      function renderHistoryView(m) {
+        const wSel = document.getElementById('histWalletFilter');
+        wSel.innerHTML = `<option value="all">All Wallets</option>` + AppState.wallets.map((w) =>
+          `<option value="${esc(w.id)}" ${histWallet === w.id ? 'selected' : ''}>${esc(w.name)}</option>`
+        ).join('');
+
+        document.querySelectorAll('.hf-btn').forEach((b) => {
+          const on = b.dataset.hf === histFilter;
+          b.style.background = on ? 'var(--primary)' : 'var(--glass-subtle)';
+          b.style.color = on ? 'var(--primary-text)' : 'var(--text-sub)';
+        });
+
+        const todayD = new Date(todayISO() + 'T00:00:00');
+        const monthPrefix = todayISO().slice(0, 7);
+        const q = histQuery.trim().toLowerCase();
+
+        const list = [...AppState.transactions]
+          .sort((a, b) => String(b.date + (b.createdAt || '')).localeCompare(String(a.date + (a.createdAt || ''))))
+          .filter((tx) => {
+            if (histFilter === '7d') {
+              const diff = (todayD - new Date((tx.date || todayISO()) + 'T00:00:00')) / 86400000;
+              if (diff > 7 || diff < 0) return false;
+            } else if (histFilter === 'month' && !(tx.date || '').startsWith(monthPrefix)) return false;
+            else if (histFilter === 'essential' && (tx.type !== 'expense' || tx.tag !== 'essential')) return false;
+            else if (histFilter === 'impulse' && (tx.type !== 'expense' || tx.tag !== 'impulse')) return false;
+            else if (histFilter === 'income' && tx.type !== 'income') return false;
+
+            if (histWallet !== 'all' && tx.walletId !== histWallet && tx.fromWalletId !== histWallet && tx.toWalletId !== histWallet) return false;
+
+            if (q) {
+              const catName = tx.categoryId ? getCat(tx.categoryId, tx.type === 'income' ? 'income' : 'expense').name : '';
+              if (!`${catName} ${tx.subOption || ''} ${tx.note || ''} ${tx.date || ''}`.toLowerCase().includes(q)) return false;
+            }
+            return true;
+          });
+
+        let sumIn = 0, sumOut = 0;
+        for (const tx of list) {
+          if (tx.type === 'income') sumIn = round2(sumIn + toBDT(tx.amount, getWallet(tx.walletId)?.currency || 'BDT', tx.exchangeRate || m.rate));
+          else if (tx.type === 'expense') sumOut = round2(sumOut + toBDT(tx.amount, getWallet(tx.walletId)?.currency || 'BDT', tx.exchangeRate || m.rate));
+        }
+
+        document.getElementById('histSummaryBar').innerHTML = `
+          <span>Showing ${list.length} entries</span>
+          <div class="flex gap-3">
+            <span style="color: var(--income);">In: <span class="money-val">${fmtBDT(sumIn)}</span></span>
+            <span style="color: var(--expense);">Out: <span class="money-val">${fmtBDT(sumOut)}</span></span>
+          </div>
+        `;
+        document.getElementById('histFullList').innerHTML = list.length
+          ? list.map(txRowHTML).join('')
+          : `<div class="p-8 text-center text-xs font-semibold" style="color: var(--text-muted);">No matching transactions found</div>`;
+      }
+
+      function renderVaultsView(m) {
+        // 1. Bills
+        const billsEl = document.getElementById('billsContainer');
+        const bills = [...AppState.bills].sort((a, b) => Number(a.paid) - Number(b.paid) || String(a.dueDate).localeCompare(String(b.dueDate)));
+        billsEl.innerHTML = bills.length ? bills.map((b) => `
+          <div class="p-3 rounded-2xl bg-white/85 flex items-center justify-between gap-2 ${b.paid ? 'opacity-60' : ''}" style="border: 1px solid var(--border-hairline);">
+            <div class="min-w-0">
+              <div class="text-xs font-extrabold truncate ${b.paid ? 'line-through' : ''}">${esc(b.title)}</div>
+              <div class="text-[11px]" style="color: var(--text-sub);">Due: ${esc(b.dueDate)}</div>
+            </div>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <span class="money-val text-xs font-extrabold mr-1">${fmtBDT(b.amount)}</span>
+              ${!b.paid ? `<button data-pay-bill="${esc(b.id)}" class="btn-theme-primary h-8 px-2.5 rounded-lg text-[11px] font-bold">Pay</button>` : `<span class="text-[11px] font-bold" style="color: var(--income);">Paid</span>`}
+              <button data-del-bill="${esc(b.id)}" class="glass-pill w-8 h-8 rounded-lg flex items-center justify-center" style="color: var(--expense);"><i data-lucide="trash-2" class="w-3 h-3"></i></button>
+            </div>
+          </div>
+        `).join('') : `<div class="p-6 text-center rounded-2xl text-xs" style="background: var(--glass-subtle); color: var(--text-muted);">No upcoming bills scheduled</div>`;
+
+        // 2. Receivables & Payables
+        const openRec = round2(AppState.dues.filter((d) => !d.settled && d.dueType === 'receivable').reduce((s, d) => s + round2(d.remaining), 0));
+        const openPay = round2(AppState.dues.filter((d) => !d.settled && d.dueType === 'payable').reduce((s, d) => s + round2(d.remaining), 0));
+        document.getElementById('valTotalReceivable').textContent = fmtBDT(openRec);
+        document.getElementById('valTotalPayable').textContent = fmtBDT(openPay);
+
+        const duesEl = document.getElementById('duesContainer');
+        const dues = [...AppState.dues].sort((a, b) => Number(a.settled) - Number(b.settled));
+        duesEl.innerHTML = dues.length ? dues.map((d) => {
+          const isRec = d.dueType === 'receivable';
+          return `
+            <div class="p-3 rounded-2xl bg-white/85 flex items-center justify-between gap-2 ${d.settled ? 'opacity-60' : ''}" style="border: 1px solid var(--border-hairline);">
+              <div class="min-w-0">
+                <div class="flex items-center gap-1.5">
+                  <span class="px-1.5 py-0.5 rounded text-[10px] font-extrabold" style="background: ${isRec ? 'var(--income-soft)' : 'var(--expense-soft)'}; color: ${isRec ? 'var(--income)' : 'var(--expense)'};">${isRec ? 'Receivable' : 'Payable'}</span>
+                  <span class="text-xs font-extrabold truncate ${d.settled ? 'line-through' : ''}">${esc(d.person)}</span>
+                </div>
+                <p class="text-[11px] truncate mt-0.5" style="color: var(--text-sub);">${esc(d.note || 'No note')}${d.totalAmount !== d.remaining && !d.settled ? ` (Total: ${fmtBDT(d.totalAmount)})` : ''}</p>
+              </div>
+              <div class="flex items-center gap-1.5 shrink-0">
+                <span class="money-val text-xs font-extrabold mr-1" style="color: ${isRec ? 'var(--income)' : 'var(--expense)'};">${fmtBDT(d.remaining)}</span>
+                ${!d.settled ? `<button data-settle-due="${esc(d.id)}" class="btn-theme-primary h-8 px-2.5 rounded-lg text-[11px] font-bold">Settle</button>` : `<span class="text-[11px] font-bold" style="color: var(--income);">Settled</span>`}
+                <button data-del-due="${esc(d.id)}" class="glass-pill w-8 h-8 rounded-lg flex items-center justify-center" style="color: var(--expense);"><i data-lucide="trash-2" class="w-3 h-3"></i></button>
+              </div>
+            </div>
+          `;
+        }).join('') : `<div class="p-6 text-center rounded-2xl text-xs" style="background: var(--glass-subtle); color: var(--text-muted);">No receivables or payables recorded</div>`;
+
+        // 3. Loan & Debt Payoff Optimizer
+        const debtsEl = document.getElementById('debtsContainer');
+        const monthlySavingsVel = Math.max(0, m.monthNet);
+        debtsEl.innerHTML = AppState.debts.length ? AppState.debts.map((db) => {
+          const r = (db.interestRate || 0) / 100 / 12;
+          const n = Math.max(1, db.months || 12);
+          const emi = r > 0 ? round2((db.principal * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1)) : round2(db.principal / n);
+          const fastMonths = monthlySavingsVel > 0 ? Math.max(1, Math.ceil(db.principal / monthlySavingsVel)) : n;
+          return `
+            <div class="p-4 rounded-2xl bg-white/85 space-y-2" style="border: 1px solid var(--border-hairline);">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-extrabold">${esc(db.title)}</span>
+                <button data-del-debt="${esc(db.id)}" class="hover:underline text-[11px] font-bold" style="color: var(--expense);">Remove</button>
+              </div>
+              <div class="flex items-baseline justify-between text-xs">
+                <span style="color: var(--text-sub);">Loan: <strong class="money-val" style="color: var(--text-main);">${fmtBDT(db.principal)}</strong> (${db.interestRate}%)</span>
+                <span class="font-extrabold" style="color: var(--accent);">EMI: <span class="money-val">${fmtBDT(emi)}</span>/mo</span>
+              </div>
+              <div class="p-2 rounded-xl text-[11px] font-semibold" style="background: var(--glass-subtle); color: var(--text-sub);">
+                ${monthlySavingsVel > 0 ? `At current monthly savings rate, you can be Debt-Free in <strong>${fastMonths} months</strong>` : `Standard tenure: <strong>${n} months</strong> (increase monthly net savings to accelerate payoff)`}
+              </div>
+            </div>
+          `;
+        }).join('') : `<div class="col-span-full p-6 text-center rounded-2xl text-xs" style="background: var(--glass-subtle); color: var(--text-muted);">No active loans added</div>`;
+      }
+
+      function updateNavStyles() {
+        document.querySelectorAll('.nav-btn').forEach((b) => {
+          const on = b.dataset.nav === activeTab;
+          b.style.background = on ? '#FFFFFF' : 'transparent';
+          b.style.color = on ? 'var(--accent)' : 'var(--text-sub)';
+          b.style.boxShadow = on ? '0 1px 4px rgba(0,0,0,0.06)' : 'none';
+        });
+        document.querySelectorAll('.mnav-btn').forEach((b) => {
+          const on = b.dataset.nav === activeTab;
+          b.style.color = on ? 'var(--accent)' : 'var(--text-muted)';
+        });
+      }
+
+      function switchTab(tab) {
+        activeTab = tab;
+        document.querySelectorAll('.view-pane').forEach((p) => p.classList.toggle('hidden', p.id !== `view-${tab}`));
+        updateNavStyles();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      /* ---------------------------------------------------------------------
+         7. SLIDE-OVER SHEET FORMS
+         --------------------------------------------------------------------- */
+      function openSheet(title, sub, html) {
+        document.getElementById('sheetTitle').textContent = title;
+        document.getElementById('sheetSubtitle').textContent = sub || '';
+        const body = document.getElementById('sheetBody');
+        body.innerHTML = html;
+        document.getElementById('sheetBackdrop').classList.add('open');
+        lucide.createIcons({ nodes: [body] });
+      }
+
+      function closeSheet() {
+        document.getElementById('sheetBackdrop').classList.remove('open');
+      }
+
+      function openEntrySheet(editTx = null, presetCat = null) {
+        if (editTx && editTx.type === 'transfer') { openTransferSheet(editTx); return; }
+        const isEdit = Boolean(editTx);
+        const type = isEdit ? editTx.type : 'expense';
+        const walletId = isEdit ? editTx.walletId : (AppState.settings.quickFoodWalletId || AppState.wallets[0].id);
+        const catId = isEdit ? editTx.categoryId : (presetCat || AppState.expenseCats[0].id);
+        const subOpt = isEdit ? (editTx.subOption || '') : '';
+        const tag = isEdit ? (editTx.tag || 'essential') : 'essential';
+
+        openSheet(isEdit ? 'Edit Entry' : 'Add Entry', 'Log income or expense cleanly', `
+          <form id="entryForm" class="space-y-3.5">
+            <div class="grid grid-cols-2 gap-1.5 p-1 rounded-xl" style="background: var(--glass-subtle);">
+              <button type="button" data-et="expense" class="et-btn h-9 rounded-lg text-xs font-bold">Expense</button>
+              <button type="button" data-et="income" class="et-btn h-9 rounded-lg text-xs font-bold">Income</button>
+            </div>
+            <input type="hidden" id="fType" value="${esc(type)}" />
+
+            <div class="grid grid-cols-2 gap-2.5">
+              <div>
+                <label class="block text-xs font-bold mb-1">Amount</label>
+                <input id="fAmt" type="number" step="0.01" min="0.01" required placeholder="0" value="${isEdit ? esc(editTx.amount) : ''}" class="glass-input w-full h-11 px-3 text-base font-extrabold" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold mb-1">Wallet</label>
+                <select id="fWallet" class="glass-input w-full h-11 px-2.5 text-xs font-bold">
+                  ${AppState.wallets.map((w) => `<option value="${esc(w.id)}" ${w.id === walletId ? 'selected' : ''}>${esc(w.name)} (${w.currency})</option>`).join('')}
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold mb-1">Category</label>
+              <select id="fCat" class="glass-input w-full h-11 px-3 text-xs font-bold"></select>
+            </div>
+
+            <div id="fSubWrap" class="hidden p-3 rounded-xl space-y-1.5" style="background: var(--glass-subtle);">
+              <label class="block text-xs font-bold">Internet Type:</label>
+              <div id="fSubPills" class="flex gap-2"></div>
+              <input type="hidden" id="fSub" value="${esc(subOpt)}" />
+            </div>
+
+            <div id="fTagWrap" class="space-y-1.5">
+              <label class="block text-xs font-bold">Spending Tag</label>
+              <div class="grid grid-cols-3 gap-2">
+                <button type="button" data-ftag="essential" class="ftag-btn h-10 rounded-xl text-xs font-bold border">Essential</button>
+                <button type="button" data-ftag="impulse" class="ftag-btn h-10 rounded-xl text-xs font-bold border">Impulse</button>
+                <button type="button" data-ftag="social" class="ftag-btn h-10 rounded-xl text-xs font-bold border">Social</button>
+              </div>
+              <input type="hidden" id="fTag" value="${esc(tag)}" />
+            </div>
+
+            <div class="grid grid-cols-2 gap-2.5">
+              <div>
+                <label class="block text-xs font-bold mb-1">Date</label>
+                <input id="fDate" type="date" required value="${isEdit ? esc(editTx.date) : todayISO()}" class="glass-input w-full h-10 px-3 text-xs font-bold" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold mb-1">Note (Optional)</label>
+                <input id="fNote" type="text" placeholder="Enter note..." value="${isEdit ? esc(editTx.note || '') : ''}" class="glass-input w-full h-10 px-3 text-xs" />
+              </div>
+            </div>
+
+            <button type="submit" class="btn-theme-primary w-full h-11 rounded-xl text-xs font-bold">${isEdit ? 'Update Entry' : 'Save Entry'}</button>
+          </form>
+        `);
+
+        const fType = document.getElementById('fType');
+        const fCat = document.getElementById('fCat');
+        const fTag = document.getElementById('fTag');
+        const fTagWrap = document.getElementById('fTagWrap');
+        const fSubWrap = document.getElementById('fSubWrap');
+        const fSubPills = document.getElementById('fSubPills');
+        const fSub = document.getElementById('fSub');
+
+        const paint = () => {
+          document.querySelectorAll('.et-btn').forEach((b) => {
+            const on = b.dataset.et === fType.value;
+            b.style.background = on ? '#FFFFFF' : 'transparent';
+            b.style.color = on ? 'var(--primary)' : 'var(--text-sub)';
+            b.style.boxShadow = on ? '0 1px 4px rgba(0,0,0,0.06)' : 'none';
+          });
+          document.querySelectorAll('.ftag-btn').forEach((b) => {
+            const on = b.dataset.ftag === fTag.value;
+            b.style.background = on ? 'var(--primary)' : '#FFFFFF';
+            b.style.color = on ? 'var(--primary-text)' : 'var(--text-main)';
+            b.style.borderColor = on ? 'var(--primary)' : 'var(--border-hairline)';
+          });
+        };
+
+        const loadCats = (sel = null) => {
+          const isExp = fType.value === 'expense';
+          const list = isExp ? AppState.expenseCats : AppState.incomeCats;
+          fCat.innerHTML = list.map((c) => `<option value="${esc(c.id)}">${esc(c.name)}</option>`).join('');
+          if (sel && list.some((c) => c.id === sel)) fCat.value = sel;
+          fTagWrap.classList.toggle('hidden', !isExp);
+          refreshSub();
+        };
+
+        const refreshSub = () => {
+          const cat = getCat(fCat.value, 'expense');
+          if (fType.value === 'expense' && cat.subOptions) {
+            fSubWrap.classList.remove('hidden');
+            if (!cat.subOptions.includes(fSub.value)) fSub.value = cat.subOptions[0];
+            fSubPills.innerHTML = cat.subOptions.map((o) => {
+              const on = fSub.value === o;
+              return `<button type="button" data-sopt="${esc(o)}" class="sopt-btn flex-1 h-9 rounded-xl text-xs font-bold border" style="background: ${on ? 'var(--primary)' : '#FFFFFF'}; color: ${on ? 'var(--primary-text)' : 'var(--text-main)'}; border-color: ${on ? 'var(--primary)' : 'var(--border-hairline)'};">${esc(o)}</button>`;
+            }).join('');
+          } else {
+            fSubWrap.classList.add('hidden');
+            fSub.value = '';
+          }
+        };
+
+        document.querySelectorAll('.et-btn').forEach((b) => b.onclick = () => { fType.value = b.dataset.et; paint(); loadCats(); });
+        document.querySelectorAll('.ftag-btn').forEach((b) => b.onclick = () => { fTag.value = b.dataset.ftag; paint(); });
+        fCat.onchange = () => {
+          if (fType.value === 'expense' && !isEdit) fTag.value = getCat(fCat.value, 'expense').defaultTag || 'essential';
+          paint();
+          refreshSub();
+        };
+        fSubPills.onclick = (e) => {
+          const b = e.target.closest('.sopt-btn');
+          if (b) { fSub.value = b.dataset.sopt; refreshSub(); }
+        };
+
+        paint();
+        loadCats(catId);
+
+        document.getElementById('entryForm').onsubmit = (e) => {
+          e.preventDefault();
+          const amt = round2(parseFloat(document.getElementById('fAmt').value));
+          if (!amt || amt <= 0) { toast('Please enter a valid positive amount', 'error'); return; }
+          const data = {
+            type: fType.value,
+            amount: amt,
+            walletId: document.getElementById('fWallet').value,
+            categoryId: fCat.value,
+            subOption: fType.value === 'expense' ? fSub.value : '',
+            tag: fType.value === 'expense' ? fTag.value : '',
+            date: document.getElementById('fDate').value || todayISO(),
+            note: document.getElementById('fNote').value.trim(),
+            exchangeRate: AppState.settings.usdRate
+          };
+          if (isEdit) {
+            Object.assign(editTx, data);
+            toast('Entry updated');
+          } else {
+            AppState.transactions.push({ id: uid('tx'), createdAt: new Date().toISOString(), ...data });
+            toast('Entry saved');
+          }
+          saveState();
+          renderAll();
+          closeSheet();
+        };
+      }
+
+      function openTransferSheet(editTx = null) {
+        const isEdit = Boolean(editTx);
+        const fId = isEdit ? editTx.fromWalletId : AppState.wallets[0].id;
+        const tId = isEdit ? editTx.toWalletId : (AppState.wallets.find((w) => w.id !== fId && w.currency === 'BDT')?.id || AppState.wallets[1]?.id || fId);
+
+        openSheet('Transfer / Convert Funds', 'Principal moves cleanly; only Transfer Fee counts as expense', `
+          <form id="trForm" class="space-y-3.5">
+            <div class="grid grid-cols-2 gap-2.5">
+              <div>
+                <label class="block text-xs font-bold mb-1">From</label>
+                <select id="trF" class="glass-input w-full h-10 px-2.5 text-xs font-bold">
+                  ${AppState.wallets.map((w) => `<option value="${esc(w.id)}" ${w.id === fId ? 'selected' : ''}>${esc(w.name)} (${w.currency})</option>`).join('')}
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold mb-1">To</label>
+                <select id="trT" class="glass-input w-full h-10 px-2.5 text-xs font-bold">
+                  ${AppState.wallets.map((w) => `<option value="${esc(w.id)}" ${w.id === tId ? 'selected' : ''}>${esc(w.name)} (${w.currency})</option>`).join('')}
+                </select>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2.5">
+              <div>
+                <label class="block text-xs font-bold mb-1">Amount</label>
+                <input id="trA" type="number" step="0.01" min="0.01" required value="${isEdit ? esc(editTx.fromAmount) : ''}" class="glass-input w-full h-10 px-3 text-sm font-extrabold" />
+              </div>
+              <div id="trRWrap">
+                <label class="block text-xs font-bold mb-1">Rate (1 USD = Tk)</label>
+                <input id="trR" type="number" step="0.01" min="1" value="${isEdit ? esc(editTx.exchangeRate) : AppState.settings.usdRate}" class="glass-input w-full h-10 px-3 text-sm font-bold" />
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2.5">
+              <div>
+                <label class="block text-xs font-bold mb-1">Cash-out Fee</label>
+                <input id="trFee" type="number" step="0.01" min="0" value="${isEdit ? esc(editTx.fee || 0) : 0}" class="glass-input w-full h-10 px-3 text-sm font-bold" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold mb-1">Date</label>
+                <input id="trD" type="date" value="${isEdit ? esc(editTx.date) : todayISO()}" class="glass-input w-full h-10 px-3 text-xs font-bold" />
+              </div>
+            </div>
+            <div id="trPreview" class="p-3 rounded-xl text-xs font-semibold" style="background: var(--glass-subtle); color: var(--text-sub);"></div>
+            <button type="submit" class="btn-theme-primary w-full h-11 rounded-xl text-xs font-bold">Confirm Transfer</button>
+          </form>
+        `);
+
+        const elF = document.getElementById('trF'), elT = document.getElementById('trT'), elA = document.getElementById('trA'), elR = document.getElementById('trR'), elFee = document.getElementById('trFee');
+        const calc = () => {
+          const fw = getWallet(elF.value), tw = getWallet(elT.value);
+          const amt = Math.max(0, round2(parseFloat(elA.value) || 0));
+          const r = Number(elR.value) > 0 ? round2(parseFloat(elR.value)) : AppState.settings.usdRate;
+          const fee = Math.max(0, round2(parseFloat(elFee.value) || 0));
+          const cross = fw && tw && fw.currency !== tw.currency;
+          document.getElementById('trRWrap').classList.toggle('hidden', !cross);
+          let toAmt = amt;
+          if (cross) toAmt = fw.currency === 'USD' ? round2(amt * r) : round2(amt / r);
+          const feeW = cross ? (fw.currency === 'BDT' ? fw : tw) : fw;
+          document.getElementById('trPreview').innerHTML = `${fw?.name}: -${fmtMoney(amt, fw?.currency)} -> ${tw?.name}: +${fmtMoney(toAmt, tw?.currency)} (Fee: ${fmtMoney(fee, feeW?.currency)})`;
+          return { fw, tw, amt, toAmt, r, fee, feeW };
+        };
+        [elF, elT, elA, elR, elFee].forEach((x) => x.oninput = calc);
+        calc();
+
+        document.getElementById('trForm').onsubmit = (e) => {
+          e.preventDefault();
+          const res = calc();
+          if (res.fw.id === res.tw.id || res.amt <= 0) { toast('Select different wallets and a valid amount', 'error'); return; }
+          const payload = {
+            type: 'transfer', fromWalletId: res.fw.id, toWalletId: res.tw.id,
+            fromAmount: res.amt, toAmount: res.toAmt, exchangeRate: res.r,
+            fee: res.fee, feeWalletId: res.feeW.id, date: document.getElementById('trD').value || todayISO(), note: ''
+          };
+          if (isEdit) Object.assign(editTx, payload);
+          else AppState.transactions.push({ id: uid('tx'), createdAt: new Date().toISOString(), ...payload });
+          saveState(); renderAll(); closeSheet();
+          toast('Transfer completed');
+        };
+      }
+
+      function openSyncWalletSheet(wid) {
+        const w = getWallet(wid);
+        if (!w) return;
+        const m = calculateAll();
+        const cur = m.balances[w.id] || 0;
+        openSheet(`Sync ${w.name}`, 'Match real-world balance directly without fake transactions', `
+          <form id="syncForm" class="space-y-4">
+            <div class="p-3.5 rounded-xl flex justify-between text-xs font-bold" style="background: var(--glass-subtle);">
+              <span>Current App Balance:</span><span>${fmtMoney(cur, w.currency)}</span>
+            </div>
+            <div>
+              <label class="block text-xs font-bold mb-1">Actual Balance (${w.currency})</label>
+              <input id="syncVal" type="number" step="0.01" min="0" required value="${cur}" class="glass-input w-full h-11 px-3 text-base font-extrabold" />
+            </div>
+            <button type="submit" class="btn-theme-primary w-full h-11 rounded-xl text-xs font-bold">Sync Now</button>
+          </form>
+        `);
+        document.getElementById('syncForm').onsubmit = (e) => {
+          e.preventDefault();
+          const target = round2(parseFloat(document.getElementById('syncVal').value));
+          if (!Number.isFinite(target) || target < 0) { toast('Please enter a valid balance', 'error'); return; }
+          w.baseBalance = round2((w.baseBalance || 0) + (target - cur));
+          saveState(); renderAll(); closeSheet();
+          toast(`${w.name} synced to ${fmtMoney(target, w.currency)}`);
+        };
+      }
+
+      /* ---------------------------------------------------------------------
+         8. AI MENTOR REPORT GENERATOR
+         --------------------------------------------------------------------- */
+      async function copyDailyAiSummary() {
+        const m = calculateAll();
+        const today = todayISO();
+        const txs = AppState.transactions.filter((t) => t.date === today);
+        const tagLabel = { essential: 'Essential', impulse: 'Impulse', social: 'Social' };
+
+        const lines = [
+          `WEALTHVAULT NIGHT CHECK-IN (${today})`,
+          `User: ${AppState.settings.userName} | Health Score: ${m.healthScore ?? 'N/A'}/100`,
+          `----------------------------------------------------`,
+          `TOTAL NET WORTH: ${fmtBDT(m.netWorth)}`,
+          `  - Liquid BDT: ${fmtBDT(m.cashBdt)} | USD Vault: ${fmtUSD(m.vaultUsd)} (~ ${fmtBDT(m.vaultBdt)} @ Tk ${m.rate})`,
+          `  - Locked FDR/DPS: ${fmtBDT(AppState.lockedVault.principal)} (Maturity ~ ${fmtBDT(m.maturityVal)})`,
+          `AUTO PNL: ${fmtBDT(m.pnlAmount, true)} (${m.pnlPct >= 0 ? '+' : ''}${m.pnlPct}%) | Starting Capital: ${fmtBDT(m.startCap)}`,
+          `SAFE-TO-SPEND: ${fmtBDT(m.safeDaily)}/day (${m.daysLeft}d left, Reserved Bills: ${fmtBDT(m.reservedBillsBdt)})`,
+          ``,
+          `WALLET BALANCES:`,
+          ...AppState.wallets.map((w) => `  - ${w.name}: ${w.currency === 'USD' ? `${fmtUSD(m.balances[w.id])} (~ ${fmtBDT((m.balances[w.id] || 0) * m.rate)})` : fmtBDT(m.balances[w.id])}`),
+          ``,
+          `TODAY'S TRANSACTIONS (${txs.length}):`,
+          ...(txs.length ? txs.map((t) => {
+            if (t.type === 'expense') return `  - Expense -${fmtBDT(t.amount)} | ${getCat(t.categoryId).name}${t.subOption ? ` [${t.subOption}]` : ''} | ${tagLabel[t.tag] || ''}${t.note ? ` (${t.note})` : ''}`;
+            if (t.type === 'income') return `  - Income +${fmtBDT(t.amount)} | ${getCat(t.categoryId, 'income').name}${t.note ? ` (${t.note})` : ''}`;
+            return `  - Transfer: ${fmtBDT(t.fromAmount)} (Fee: ${fmtBDT(t.fee || 0)})`;
+          }) : [`  - No transactions today`]),
+          ``,
+          `Mentor Prompt: Analyze my spending discipline and PnL today, and give me 2 sharp tactical adjustments for tomorrow.`
+        ];
+
+        const text = lines.join('\n');
+        try {
+          await navigator.clipboard.writeText(text);
+          toast('AI Mentor report copied! Paste into Gemini AI');
+        } catch {
+          const ta = document.createElement('textarea');
+          ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
+          toast('AI Mentor report copied!');
+        }
+      }
+
+      /* ---------------------------------------------------------------------
+         9. EVENT WIRING
+         --------------------------------------------------------------------- */
+      function init() {
+        document.addEventListener('click', (e) => {
+          const themeBtn = e.target.closest('[data-set-theme]');
+          if (themeBtn) {
+            AppState.settings.theme = themeBtn.dataset.setTheme;
+            saveState();
+            renderAll();
+            return;
+          }
+
+          const nav = e.target.closest('[data-nav]');
+          if (nav) { switchTab(nav.dataset.nav); return; }
+
+          const syncW = e.target.closest('[data-sync-wallet]');
+          if (syncW) { openSyncWalletSheet(syncW.dataset.syncWallet); return; }
+
+          const delW = e.target.closest('[data-del-wallet]');
+          if (delW) {
+            const w = getWallet(delW.dataset.delWallet);
+            if (!w || w.core) return;
+            askConfirm('Delete Wallet', `Are you sure you want to delete "${w.name}"?`, () => {
+              AppState.wallets = AppState.wallets.filter((x) => x.id !== w.id);
+              saveState(); renderAll(); toast('Wallet deleted', 'info');
+            });
+            return;
+          }
+
+          const editTx = e.target.closest('[data-edit-tx]');
+          if (editTx) {
+            const tx = AppState.transactions.find((t) => t.id === editTx.dataset.editTx);
+            if (tx) openEntrySheet(tx);
+            return;
+          }
+
+          const delTx = e.target.closest('[data-del-tx]');
+          if (delTx) {
+            const tx = AppState.transactions.find((t) => t.id === delTx.dataset.delTx);
+            if (!tx) return;
+            askConfirm('Delete Entry', 'Deleting this entry will automatically recalculate all wallet balances and PnL.', () => {
+              if (tx.linkedBillId) {
+                const b = AppState.bills.find((x) => x.id === tx.linkedBillId);
+                if (b) b.paid = false;
+              }
+              AppState.transactions = AppState.transactions.filter((t) => t.id !== tx.id);
+              saveState(); renderAll(); toast('Entry deleted', 'info');
+            });
+            return;
+          }
+
+          const qFood = e.target.closest('[data-quick-food]');
+          if (qFood) {
+            const amt = round2(parseFloat(qFood.dataset.quickFood));
+            const wid = document.getElementById('quickFoodWalletSel').value || 'w_moneybag';
+            AppState.transactions.push({
+              id: uid('tx'), createdAt: new Date().toISOString(), type: 'expense',
+              amount: amt, walletId: wid, categoryId: 'cat_family_food', subOption: '',
+              tag: 'essential', date: todayISO(), note: 'Quick Family Food', exchangeRate: AppState.settings.usdRate
+            });
+            saveState(); renderAll();
+            toast(`Family Food +${fmtBDT(amt)} logged`);
+            return;
+          }
+
+          const hf = e.target.closest('[data-hf]');
+          if (hf) { histFilter = hf.dataset.hf; renderHistoryView(calculateAll()); lucide.createIcons(); return; }
+
+          // Pay Bill
+          const payB = e.target.closest('[data-pay-bill]');
+          if (payB) {
+            const b = AppState.bills.find((x) => x.id === payB.dataset.payBill);
+            if (!b) return;
+            const bdtW = AppState.wallets.filter((w) => w.currency === 'BDT');
+            openSheet(`Pay Bill: ${b.title}`, 'Deducts from wallet and logs as Essential expense', `
+              <form id="payBForm" class="space-y-4">
+                <div class="p-3.5 rounded-xl font-extrabold text-sm flex justify-between" style="background: var(--glass-subtle);"><span>Amount:</span><span>${fmtBDT(b.amount)}</span></div>
+                <select id="payBW" class="glass-input w-full h-11 px-3 text-xs font-bold">
+                  ${bdtW.map((w) => `<option value="${esc(w.id)}">${esc(w.name)}</option>`).join('')}
+                </select>
+                <button type="submit" class="btn-theme-primary w-full h-11 rounded-xl text-xs font-bold">Confirm Payment</button>
+              </form>
+            `);
+            document.getElementById('payBForm').onsubmit = (ev) => {
+              ev.preventDefault();
+              b.paid = true;
+              AppState.transactions.push({
+                id: uid('tx'), createdAt: new Date().toISOString(), type: 'expense',
+                amount: b.amount, walletId: document.getElementById('payBW').value,
+                categoryId: b.categoryId || 'cat_bills', subOption: '', tag: 'essential',
+                date: todayISO(), note: `Bill: ${b.title}`, linkedBillId: b.id, exchangeRate: AppState.settings.usdRate
+              });
+              saveState(); renderAll(); closeSheet(); toast('Bill marked as paid');
+            };
+            return;
+          }
+
+          const delB = e.target.closest('[data-del-bill]');
+          if (delB) { AppState.bills = AppState.bills.filter((x) => x.id !== delB.dataset.delBill); saveState(); renderAll(); return; }
+
+          // Partial / Full Settle Receivables & Payables
+          const setDue = e.target.closest('[data-settle-due]');
+          if (setDue) {
+            const d = AppState.dues.find((x) => x.id === setDue.dataset.settleDue);
+            if (!d) return;
+            const isRec = d.dueType === 'receivable';
+            const bdtW = AppState.wallets.filter((w) => w.currency === 'BDT');
+            openSheet(`${isRec ? 'Collect Receivable' : 'Repay Payable'}: ${d.person}`, `Remaining: ${fmtBDT(d.remaining)}`, `
+              <form id="setDueForm" class="space-y-4">
+                <div>
+                  <label class="block text-xs font-bold mb-1">Settlement Amount (Partial or Full)</label>
+                  <input id="sdAmt" type="number" step="0.01" min="1" max="${d.remaining}" required value="${d.remaining}" class="glass-input w-full h-11 px-3 text-base font-extrabold" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold mb-1">${isRec ? 'Deposit Into Wallet' : 'Pay From Wallet'}</label>
+                  <select id="sdW" class="glass-input w-full h-11 px-3 text-xs font-bold">
+                    ${bdtW.map((w) => `<option value="${esc(w.id)}">${esc(w.name)}</option>`).join('')}
+                  </select>
+                </div>
+                <button type="submit" class="btn-theme-primary w-full h-11 rounded-xl text-xs font-bold">Confirm Settlement</button>
+              </form>
+            `);
+            document.getElementById('setDueForm').onsubmit = (ev) => {
+              ev.preventDefault();
+              const payAmt = Math.min(d.remaining, round2(parseFloat(document.getElementById('sdAmt').value)));
+              if (!payAmt || payAmt <= 0) return;
+              d.remaining = round2(d.remaining - payAmt);
+              if (d.remaining <= 0) { d.remaining = 0; d.settled = true; }
+              AppState.transactions.push({
+                id: uid('tx'), createdAt: new Date().toISOString(), type: 'due_settle',
+                dueType: d.dueType, amount: payAmt, walletId: document.getElementById('sdW').value,
+                date: todayISO(), note: d.person
+              });
+              saveState(); renderAll(); closeSheet();
+              toast(`${d.person}: ${fmtBDT(payAmt)} ${d.settled ? 'fully settled!' : 'partially settled'}`);
+            };
+            return;
+          }
+
+          const delD = e.target.closest('[data-del-due]');
+          if (delD) { AppState.dues = AppState.dues.filter((x) => x.id !== delD.dataset.delDue); saveState(); renderAll(); return; }
+
+          const delDebt = e.target.closest('[data-del-debt]');
+          if (delDebt) { AppState.debts = AppState.debts.filter((x) => x.id !== delDebt.dataset.delDebt); saveState(); renderAll(); return; }
+        });
+
+        // Header & Action Buttons
+        document.getElementById('btnPrivacyEye').onclick = () => {
+          AppState.settings.privacyMasked = !AppState.settings.privacyMasked;
+          saveState(); renderAll();
+        };
+
+        document.getElementById('btnLockApp').onclick = () => {
+          AppState.settings.locked = true;
+          saveState(); renderAll();
+        };
+
+        document.getElementById('btnUnlockScreen').onclick = () => {
+          const pin = document.getElementById('lockPinInput').value.trim();
+          if (pin && pin !== AppState.settings.pin) {
+            toast('Incorrect PIN (Default PIN is 1234 or leave blank to unlock)', 'error');
+            return;
+          }
+          document.getElementById('lockPinInput').value = '';
+          AppState.settings.locked = false;
+          saveState(); renderAll();
+        };
+
+        document.getElementById('btnOpenAdd').onclick = () => openEntrySheet();
+        document.getElementById('btnOpenTransfer').onclick = () => openTransferSheet();
+        document.getElementById('btnMobileTransfer').onclick = () => openTransferSheet();
+        document.getElementById('btnQuickFoodCustom').onclick = () => openEntrySheet(null, 'cat_family_food');
+        document.getElementById('btnCopyAiMentor').onclick = copyDailyAiSummary;
+
+        // 1-Click Set Current Net Worth as Day 1 Starting Capital
+        document.getElementById('btnLockDay1Now').onclick = () => {
+          const m = calculateAll();
+          AppState.settings.startingCapital = Math.max(0, m.netWorth);
+          saveState(); renderAll();
+          toast(`Day 1 Starting Capital set to ${fmtBDT(AppState.settings.startingCapital)}`);
+        };
+
+        // Edit Cycle Starting Capital & Goal
+        const openCycleModal = () => {
+          openSheet('Starting Capital & 3-Month Goal', 'Configure Day 1 Capital and Savings Goal', `
+            <form id="cycleForm" class="space-y-3.5">
+              <div>
+                <label class="block text-xs font-bold mb-1">Day 1 Starting Capital (BDT)</label>
+                <input id="cStart" type="number" step="0.01" min="0" value="${AppState.settings.startingCapital}" class="glass-input w-full h-11 px-3 text-base font-extrabold" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold mb-1">3-Month Savings Goal (BDT)</label>
+                <input id="cGoal" type="number" step="0.01" min="0" value="${AppState.settings.goalTarget}" class="glass-input w-full h-11 px-3 text-base font-extrabold" />
+              </div>
+              <div class="grid grid-cols-2 gap-2.5">
+                <div>
+                  <label class="block text-xs font-bold mb-1">Start Date</label>
+                  <input id="cDate" type="date" value="${esc(AppState.settings.cycleStartDate)}" class="glass-input w-full h-10 px-3 text-xs font-bold" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold mb-1">Cycle Days</label>
+                  <input id="cDays" type="number" min="7" max="365" value="${AppState.settings.cycleDays}" class="glass-input w-full h-10 px-3 text-xs font-bold" />
+                </div>
+              </div>
+              <button type="submit" class="btn-theme-primary w-full h-11 rounded-xl text-xs font-bold">Save Settings</button>
+            </form>
+          `);
+          document.getElementById('cycleForm').onsubmit = (e) => {
+            e.preventDefault();
+            AppState.settings.startingCapital = Math.max(0, round2(parseFloat(document.getElementById('cStart').value) || 0));
+            AppState.settings.goalTarget = Math.max(0, round2(parseFloat(document.getElementById('cGoal').value) || 0));
+            AppState.settings.cycleStartDate = document.getElementById('cDate').value || todayISO();
+            AppState.settings.cycleDays = Math.max(7, parseInt(document.getElementById('cDays').value || '90', 10));
+            saveState(); renderAll(); closeSheet(); toast('Cycle capital & goal updated');
+          };
+        };
+        document.getElementById('btnEditCycleCap').onclick = openCycleModal;
+        document.getElementById('btnGoalModal').onclick = openCycleModal;
+
+        // Locked FDR / DPS Vault Modal
+        document.getElementById('btnEditLockedVault').onclick = () => {
+          const lv = AppState.lockedVault;
+          openSheet('Locked FDR / DPS Vault', 'Isolated from liquid cash with compound maturity projection', `
+            <form id="lvForm" class="space-y-3.5">
+              <div>
+                <label class="block text-xs font-bold mb-1">Vault Title</label>
+                <input id="lvName" type="text" value="${esc(lv.title)}" class="glass-input w-full h-10 px-3 text-xs font-bold" />
+              </div>
+              <div class="grid grid-cols-3 gap-2">
+                <div>
+                  <label class="block text-xs font-bold mb-1">Principal</label>
+                  <input id="lvPrin" type="number" step="0.01" min="0" value="${lv.principal}" class="glass-input w-full h-10 px-2.5 text-xs font-extrabold" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold mb-1">Rate (%)</label>
+                  <input id="lvRate" type="number" step="0.1" min="0" value="${lv.annualRate}" class="glass-input w-full h-10 px-2.5 text-xs font-extrabold" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold mb-1">Months</label>
+                  <input id="lvMon" type="number" min="1" max="120" value="${lv.months}" class="glass-input w-full h-10 px-2.5 text-xs font-extrabold" />
+                </div>
+              </div>
+              <button type="submit" class="btn-theme-primary w-full h-11 rounded-xl text-xs font-bold">Save Locked Vault</button>
+            </form>
+          `);
+          document.getElementById('lvForm').onsubmit = (e) => {
+            e.preventDefault();
+            AppState.lockedVault = {
+              title: document.getElementById('lvName').value.trim() || 'FDR / DPS',
+              principal: Math.max(0, round2(parseFloat(document.getElementById('lvPrin').value) || 0)),
+              annualRate: Math.max(0, round2(parseFloat(document.getElementById('lvRate').value) || 0)),
+              months: Math.max(1, parseInt(document.getElementById('lvMon').value || '12', 10))
+            };
+            saveState(); renderAll(); closeSheet(); toast('Locked Vault updated');
+          };
+        };
+
+        // Add Custom Wallet
+        document.getElementById('btnAddWallet').onclick = () => {
+          openSheet('Add Custom Wallet', 'Create an additional BDT or USD wallet', `
+            <form id="wForm" class="space-y-3.5">
+              <input id="wName" type="text" required placeholder="e.g. Rocket, Upay, Payoneer" class="glass-input w-full h-11 px-3 text-xs font-bold" />
+              <div class="grid grid-cols-2 gap-2.5">
+                <select id="wCur" class="glass-input h-11 px-3 text-xs font-bold"><option value="BDT">BDT (Tk)</option><option value="USD">USD ($)</option></select>
+                <input id="wBal" type="number" step="0.01" min="0" value="0" placeholder="Starting Balance" class="glass-input h-11 px-3 text-xs font-extrabold" />
+              </div>
+              <button type="submit" class="btn-theme-primary w-full h-11 rounded-xl text-xs font-bold">Create Wallet</button>
+            </form>
+          `);
+          document.getElementById('wForm').onsubmit = (e) => {
+            e.preventDefault();
+            const name = document.getElementById('wName').value.trim();
+            if (!name) return;
+            AppState.wallets.push({
+              id: uid('w'), name, currency: document.getElementById('wCur').value,
+              baseBalance: Math.max(0, round2(parseFloat(document.getElementById('wBal').value) || 0)),
+              icon: 'wallet', core: false
+            });
+            saveState(); renderAll(); closeSheet(); toast(`Wallet "${name}" created`);
+          };
+        };
+
+        // Add Bill, Due & Debt Modals
+        document.getElementById('btnNewBill').onclick = () => {
+          openSheet('Add Bill / Subscription', 'Unpaid bills are reserved automatically from Safe-to-Spend', `
+            <form id="nbForm" class="space-y-3.5">
+              <input id="nbTitle" type="text" required placeholder="e.g. WiFi Bill, Gas Cylinder" class="glass-input w-full h-11 px-3 text-xs font-bold" />
+              <div class="grid grid-cols-2 gap-2.5">
+                <input id="nbAmt" type="number" step="0.01" min="1" required placeholder="Amount (BDT)" class="glass-input h-11 px-3 text-sm font-extrabold" />
+                <input id="nbDate" type="date" required value="${todayISO()}" class="glass-input h-11 px-3 text-xs font-bold" />
+              </div>
+              <button type="submit" class="btn-theme-primary w-full h-11 rounded-xl text-xs font-bold">Save Bill</button>
+            </form>
+          `);
+          document.getElementById('nbForm').onsubmit = (e) => {
+            e.preventDefault();
+            const title = document.getElementById('nbTitle').value.trim();
+            const amount = round2(parseFloat(document.getElementById('nbAmt').value));
+            if (!title || amount <= 0) return;
+            AppState.bills.push({ id: uid('bill'), title, amount, dueDate: document.getElementById('nbDate').value || todayISO(), categoryId: 'cat_bills', paid: false });
+            saveState(); renderAll(); closeSheet(); toast('Bill scheduled');
+          };
+        };
+
+        document.getElementById('btnNewDue').onclick = () => {
+          openSheet('Add Receivable / Payable', 'Track money lent to or borrowed from someone', `
+            <form id="ndForm" class="space-y-3.5">
+              <div class="grid grid-cols-2 gap-2">
+                <label class="cursor-pointer"><input type="radio" name="dtype" value="receivable" checked class="peer sr-only" /><div class="h-10 rounded-xl border border-slate-200 flex items-center justify-center text-xs font-bold peer-checked:bg-emerald-600 peer-checked:text-white">Receivable (To Get)</div></label>
+                <label class="cursor-pointer"><input type="radio" name="dtype" value="payable" class="peer sr-only" /><div class="h-10 rounded-xl border border-slate-200 flex items-center justify-center text-xs font-bold peer-checked:bg-rose-600 peer-checked:text-white">Payable (To Pay)</div></label>
+              </div>
+              <input id="ndPerson" type="text" required placeholder="Person / Shop Name" class="glass-input w-full h-11 px-3 text-xs font-bold" />
+              <input id="ndAmt" type="number" step="0.01" min="1" required placeholder="Amount (BDT)" class="glass-input w-full h-11 px-3 text-sm font-extrabold" />
+              <input id="ndNote" type="text" placeholder="Note (Optional)" class="glass-input w-full h-10 px-3 text-xs" />
+              <button type="submit" class="btn-theme-primary w-full h-11 rounded-xl text-xs font-bold">Save Record</button>
+            </form>
+          `);
+          document.getElementById('ndForm').onsubmit = (e) => {
+            e.preventDefault();
+            const amt = round2(parseFloat(document.getElementById('ndAmt').value));
+            const person = document.getElementById('ndPerson').value.trim();
+            if (!person || amt <= 0) return;
+            AppState.dues.push({
+              id: uid('due'), dueType: document.querySelector('input[name="dtype"]:checked').value,
+              person, totalAmount: amt, remaining: amt, note: document.getElementById('ndNote').value.trim(), settled: false
+            });
+            saveState(); renderAll(); closeSheet(); toast('Record saved');
+          };
+        };
+
+        document.getElementById('btnNewDebt').onclick = () => {
+          openSheet('Add Bank / Personal Loan', 'Calculate monthly EMI and Debt-Free timeline', `
+            <form id="dbForm" class="space-y-3.5">
+              <input id="dbTitle" type="text" required placeholder="e.g. Bike Loan / Bank EMI" class="glass-input w-full h-11 px-3 text-xs font-bold" />
+              <div class="grid grid-cols-3 gap-2">
+                <input id="dbPrin" type="number" step="0.01" min="1" required placeholder="Principal" class="glass-input h-10 px-2.5 text-xs font-extrabold" />
+                <input id="dbRate" type="number" step="0.1" min="0" value="9" placeholder="Rate %" class="glass-input h-10 px-2.5 text-xs font-bold" />
+                <input id="dbMon" type="number" min="1" max="120" value="12" placeholder="Months" class="glass-input h-10 px-2.5 text-xs font-bold" />
+              </div>
+              <button type="submit" class="btn-theme-primary w-full h-11 rounded-xl text-xs font-bold">Calculate & Save</button>
+            </form>
+          `);
+          document.getElementById('dbForm').onsubmit = (e) => {
+            e.preventDefault();
+            const title = document.getElementById('dbTitle').value.trim();
+            const principal = round2(parseFloat(document.getElementById('dbPrin').value));
+            if (!title || principal <= 0) return;
+            AppState.debts.push({
+              id: uid('debt'), title, principal,
+              interestRate: Math.max(0, round2(parseFloat(document.getElementById('dbRate').value) || 0)),
+              months: Math.max(1, parseInt(document.getElementById('dbMon').value || '12', 10))
+            });
+            saveState(); renderAll(); closeSheet(); toast('Loan added to optimizer');
+          };
+        };
+
+        // Settings, Audit CSV Export & Cycle Flush
+        document.getElementById('btnOpenSettings').onclick = () => {
+          openSheet('Settings & Audit Backup', 'Theme, Profile, CSV Export & New 3-Month Cycle Flush', `
+            <div class="space-y-4">
+              <form id="setProfForm" class="p-4 rounded-2xl space-y-2.5" style="background: var(--glass-subtle);">
+                <label class="block text-xs font-bold">Display Name (Greeting)</label>
+                <input id="sName" type="text" value="${esc(AppState.settings.userName)}" class="glass-input w-full h-10 px-3 text-xs font-bold" />
+                <label class="block text-xs font-bold">Lock Screen PIN (4 digits)</label>
+                <input id="sPin" type="text" maxlength="4" value="${esc(AppState.settings.pin)}" class="glass-input w-full h-10 px-3 text-xs font-bold" />
+                <button type="submit" class="btn-theme-primary w-full h-10 rounded-xl text-xs font-bold">Save Profile</button>
+              </form>
+
+              <div class="p-4 rounded-2xl space-y-2" style="background: var(--glass-subtle);">
+                <div class="text-xs font-extrabold">Audit & Backup Suite</div>
+                <div class="grid grid-cols-2 gap-2">
+                  <button id="btnExCsv" class="glass-pill h-10 rounded-xl text-xs font-bold">Export CSV</button>
+                  <button id="btnExJson" class="glass-pill h-10 rounded-xl text-xs font-bold">Backup JSON</button>
+                </div>
+                <label class="glass-pill h-10 rounded-xl text-xs font-bold flex items-center justify-center cursor-pointer">
+                  Restore JSON Backup
+                  <input id="inImJson" type="file" accept=".json" class="hidden" />
+                </label>
+              </div>
+
+              <div class="p-4 rounded-2xl space-y-2" style="background: var(--expense-soft);">
+                <div class="text-xs font-extrabold" style="color: var(--expense);">Cycle Flush / Start New 3-Month Cycle</div>
+                <p class="text-[11px]" style="color: var(--text-sub);">Resets all balances and transactions to 0 for a new 90-day milestone while keeping your profile, theme, and exchange rate.</p>
+                <button id="btnCycleFlush" class="w-full h-10 rounded-xl text-white text-xs font-bold" style="background: var(--expense);">Flush & Start New 3-Month Cycle</button>
+              </div>
+            </div>
+          `);
+
+          document.getElementById('setProfForm').onsubmit = (e) => {
+            e.preventDefault();
+            AppState.settings.userName = document.getElementById('sName').value.trim() || 'Founder';
+            AppState.settings.pin = document.getElementById('sPin').value.trim() || '1234';
+            saveState(); renderAll(); toast('Profile saved');
+          };
+
+          document.getElementById('btnExJson').onclick = () => {
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(new Blob([JSON.stringify(AppState, null, 2)], { type: 'application/json' }));
+            a.download = `WealthVault_${todayISO()}.json`; a.click();
+            toast('JSON backup exported');
+          };
+
+          document.getElementById('btnExCsv').onclick = () => {
+            const rows = [['Date', 'Type', 'Category', 'SubOption', 'Tag', 'Wallet', 'Amount', 'Note'].join(',')];
+            for (const t of AppState.transactions) {
+              const w = getWallet(t.walletId || t.fromWalletId);
+              const c = t.categoryId ? getCat(t.categoryId, t.type === 'income' ? 'income' : 'expense').name : t.type;
+              rows.push([t.date, t.type, c, t.subOption || '', t.tag || '', w?.name || '', t.amount || t.fromAmount || 0, `"${(t.note || '').replace(/"/g, '""')}"`].join(','));
+            }
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(new Blob([rows.join('\n')], { type: 'text/csv;charset=utf-8;' }));
+            a.download = `WealthVault_Audit_${todayISO()}.csv`; a.click();
+            toast('CSV audit sheet exported');
+          };
+
+          document.getElementById('inImJson').onchange = (ev) => {
+            const f = ev.target.files?.[0];
+            if (!f) return;
+            const r = new FileReader();
+            r.onload = () => {
+              try {
+                AppState = sanitizeState(JSON.parse(String(r.result)));
+                saveState(); renderAll(); closeSheet(); toast('Backup restored');
+              } catch { toast('Invalid JSON file', 'error'); }
+            };
+            r.readAsText(f);
+          };
+
+          document.getElementById('btnCycleFlush').onclick = () => {
+            askConfirm('Start New 3-Month Cycle?', 'All transactions and balances will be reset to 0. Export CSV/JSON first if you want a backup.', () => {
+              const keepName = AppState.settings.userName;
+              const keepRate = AppState.settings.usdRate;
+              const keepTheme = AppState.settings.theme;
+              AppState = defaultState();
+              AppState.settings.userName = keepName;
+              AppState.settings.usdRate = keepRate;
+              AppState.settings.theme = keepTheme;
+              animCache.clear();
+              saveState(); renderAll(); closeSheet();
+              toast('New 3-month cycle started!');
+            });
+          };
+        };
+
+        // Live USD Rate
+        document.getElementById('inputUsdRate').oninput = (e) => {
+          const v = parseFloat(e.target.value);
+          if (Number.isFinite(v) && v > 0) { AppState.settings.usdRate = round2(v); saveState(); renderAll(); }
+        };
+
+        // Quick Family Food Wallet Selector
+        document.getElementById('quickFoodWalletSel').onchange = (e) => {
+          AppState.settings.quickFoodWalletId = e.target.value;
+          saveState();
+        };
+
+        // Quick-Add Bar Live Detect & Submit
+        const qIn = document.getElementById('quickAddInput');
+        const qBar = document.getElementById('quickDetectBar');
+        qIn.oninput = () => {
+          const p = parseQuickText(qIn.value);
+          if (!p || !qIn.value.trim()) { qBar.classList.add('hidden'); return; }
+          qBar.classList.remove('hidden');
+          qBar.innerHTML = `
+            <span class="px-2 py-0.5 rounded-md font-bold" style="background: ${p.type === 'income' ? 'var(--income-soft)' : 'var(--expense-soft)'}; color: ${p.type === 'income' ? 'var(--income)' : 'var(--expense)'};">
+              ${p.type === 'income' ? 'Income' : 'Expense'}: ${p.amount > 0 ? fmtMoney(p.amount, p.wallet.currency) : 'Enter amount'}
+            </span>
+            <span class="px-2 py-0.5 rounded-md font-bold" style="background: var(--glass-subtle);">${esc(p.category.name)}${p.subOption ? ` (${esc(p.subOption)})` : ''}</span>
+            <span class="px-2 py-0.5 rounded-md font-bold" style="background: var(--accent-soft); color: var(--accent);">${esc(p.wallet.name)}</span>
+          `;
+        };
+
+        document.getElementById('quickAddForm').onsubmit = (e) => {
+          e.preventDefault();
+          const p = parseQuickText(qIn.value);
+          if (!p || p.amount <= 0) { toast('Include an amount, e.g. "Bike Fuel 300 bKash"', 'error'); return; }
+          AppState.transactions.push({
+            id: uid('tx'), createdAt: new Date().toISOString(), type: p.type, amount: p.amount,
+            walletId: p.wallet.id, categoryId: p.category.id, subOption: p.subOption,
+            tag: p.tag, date: todayISO(), note: p.note, exchangeRate: AppState.settings.usdRate
+          });
+          qIn.value = ''; qBar.classList.add('hidden');
+          saveState(); renderAll();
+          toast(`${p.category.name} (${fmtMoney(p.amount, p.wallet.currency)}) logged`);
+        };
+
+        // Emergency Rescue Planner
+        document.getElementById('rescueInput').oninput = (e) => {
+          const need = round2(parseFloat(e.target.value));
+          const out = document.getElementById('rescueOutput');
+          if (!need || need <= 0) { out.classList.add('hidden'); return; }
+          out.classList.remove('hidden');
+          const m = calculateAll();
+          const cut = round2(need / m.daysLeft);
+          const sortedW = AppState.wallets
+            .map((w) => ({ name: w.name, cur: w.currency, bdt: w.currency === 'USD' ? round2((m.balances[w.id] || 0) * m.rate) : Math.max(0, m.balances[w.id] || 0) }))
+            .filter((x) => x.bdt > 0).sort((a, b) => b.bdt - a.bdt);
+          let rem = need;
+          const steps = [];
+          for (const w of sortedW) {
+            if (rem <= 0) break;
+            const take = Math.min(w.bdt, rem);
+            steps.push(`- Withdraw <strong>${fmtBDT(take)}</strong> from <strong>${esc(w.name)}</strong>`);
+            rem = round2(rem - take);
+          }
+          out.innerHTML = `
+            <div class="font-extrabold" style="color: var(--expense);">Daily spending cut needed (${m.daysLeft}d): -${fmtBDT(cut)}/day</div>
+            ${steps.length ? steps.join('<br>') : '<div style="color: var(--text-muted);">No funded wallets available yet</div>'}
+            ${rem > 0 ? `<div class="font-bold" style="color: var(--expense);">Shortfall: ${fmtBDT(rem)}</div>` : `<div class="font-bold" style="color: var(--income);">Fully coverable from existing wallets!</div>`}
+          `;
+        };
+        document.getElementById('btnRescueReset').onclick = () => {
+          document.getElementById('rescueInput').value = '';
+          document.getElementById('rescueOutput').classList.add('hidden');
+        };
+
+        // History Search & Wallet Filter
+        document.getElementById('histSearch').oninput = (e) => { histQuery = e.target.value; renderHistoryView(calculateAll()); lucide.createIcons(); };
+        document.getElementById('histWalletFilter').onchange = (e) => { histWallet = e.target.value; renderHistoryView(calculateAll()); lucide.createIcons(); };
+
+        // Sheet Close
+        document.getElementById('btnCloseSheet').onclick = closeSheet;
+        document.getElementById('sheetBackdrop').onclick = (e) => { if (e.target.id === 'sheetBackdrop') closeSheet(); };
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSheet(); });
+      }
+
+      init();
+      renderAll();
+    })();
+  </script>
+</body>
+</html>
